@@ -5,11 +5,7 @@ namespace App\Providers;
 use Illuminate\Routing\Router;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use App\Http\Action\{
-    Index,
-    Authentication\Github,
-    Authentication\Google,
-    Authentication\Facebook,
-    Authentication\Twitter
+    Authentication\SignOut, Index, Authentication\Email, Authentication\Github, Authentication\Google, Authentication\Facebook, Authentication\Twitter
 };
 
 /**
@@ -46,6 +42,24 @@ class RouteServiceProvider extends ServiceProvider
                 'uses' => Index::class,
             ]);
     
+            $router->get('/sign_out', [
+                'as'   => 'auth.sign_out',
+                'uses' => SignOut::class,
+            ]);
+        });
+        
+        // 未認証
+        $router->group(['middleware' => ['web', 'auth.valid']], function (Router $router) {
+            $router->get('/sign_up', [
+                'as'   => 'auth.get.sign_up',
+                'uses' => Email\GetSignUp::class,
+            ]);
+            
+            $router->post('/sign_up', [
+                'as'   => 'auth.post.sign_up',
+                'uses' => Email\PostSignUp::class,
+            ]);
+            
             /**
              * Auth Github
              */
@@ -97,6 +111,11 @@ class RouteServiceProvider extends ServiceProvider
                 'as'   => 'auth.twitter.callback',
                 'uses' => Twitter\Callback::class,
             ]);
+        });
+    
+        // 認証済
+        $router->group(['middleware' => ['web', 'auth']], function (Router $router) {
+            //
         });
     }
 }
