@@ -180,8 +180,8 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        \App\Providers\DevelopServiceProvider::class,
-
+        App\Providers\DevelopServiceProvider::class,
+        App\Providers\CriteriaServiceProvider::class,
     ],
 
     /*
