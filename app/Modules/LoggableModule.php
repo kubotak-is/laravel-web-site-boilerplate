@@ -2,6 +2,7 @@
 
 namespace App\Modules;
 
+use App\DataAccess\MySQL\{UsersStorage, UsersMailStorage};
 use Ytake\LaravelAspect\Modules\LoggableModule as PackageLoggableModule;
 
 /**
@@ -11,7 +12,7 @@ class LoggableModule extends PackageLoggableModule
 {
     /** @var array */
     protected $classes = [
-        // example
-        // \App\Services\AcmeService::class
+        UsersStorage::class,
+        UsersMailStorage::class,
     ];
 }

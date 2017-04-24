@@ -42,8 +42,14 @@ return [
             ]
         ],
         'modules' => [
-            // append modules
-            // \App\Modules\CacheableModule::class,
+            App\Modules\CacheableModule::class,
+            App\Modules\CacheEvictModule::class,
+            App\Modules\CachePutModule::class,
+            App\Modules\LogExceptionsModule::class,
+            App\Modules\LoggableModule::class,
+            App\Modules\PostConstructModule::class,
+            App\Modules\RetryOnFailureModule::class,
+            App\Modules\TransactionalModule::class,
         ],
     ],
 
