@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Domain\UseCase\Authentication;
 
 use App\Domain\Entity\UserEmail;
-use App\Domain\Repository\CreateMailUserRepository;
+use App\Domain\Repository\UsersMailRepository;
 use App\Domain\Specification\CreateMailUserSpecification;
 use PHPMentors\DomainKata\Entity\EntityInterface;
 use PHPMentors\DomainKata\Usecase\UsecaseInterface;
@@ -35,7 +35,7 @@ class RegistrationToEmailUser implements UsecaseInterface
      */
     public function run(EntityInterface $userEmail): bool
     {
-        return (new CreateMailUserRepository($userEmail))
-            ->create($this->createMailUserSpecification);
+        return (new UsersMailRepository($this->createMailUserSpecification))
+            ->create($userEmail);
     }
 }

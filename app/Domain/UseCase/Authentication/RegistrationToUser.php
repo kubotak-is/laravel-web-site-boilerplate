@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Domain\UseCase\Authentication;
 
 use App\Domain\Entity\User;
-use App\Domain\Repository\CreateUserRepository;
+use App\Domain\Repository\UsersRepository;
 use App\Domain\Specification\CreateUserSpecification;
 use PHPMentors\DomainKata\Entity\EntityInterface;
 use PHPMentors\DomainKata\Usecase\UsecaseInterface;
@@ -37,7 +37,7 @@ class RegistrationToUser implements UsecaseInterface
      */
     public function run(EntityInterface $user): bool
     {
-        return (new CreateUserRepository($user))
-            ->create($this->createUserSpecification);
+        return (new UsersRepository($this->createUserSpecification))
+            ->create($user);
     }
 }
