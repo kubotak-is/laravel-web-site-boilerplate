@@ -5,7 +5,7 @@ namespace App\Domain\UseCase\Authentication;
 
 use App\Domain\Entity\User;
 use App\Domain\Repository\UsersRepository;
-use App\Domain\Specification\CreateUserSpecification;
+use App\Domain\Specification\Authentication\CreateUserSpecification;
 use PHPMentors\DomainKata\Entity\EntityInterface;
 use PHPMentors\DomainKata\Usecase\UsecaseInterface;
 

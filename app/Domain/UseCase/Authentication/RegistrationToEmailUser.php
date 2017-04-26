@@ -5,7 +5,7 @@ namespace App\Domain\UseCase\Authentication;
 
 use App\Domain\Entity\UserEmail;
 use App\Domain\Repository\UsersMailRepository;
-use App\Domain\Specification\CreateMailUserSpecification;
+use App\Domain\Specification\Authentication\CreateMailUserSpecification;
 use PHPMentors\DomainKata\Entity\EntityInterface;
 use PHPMentors\DomainKata\Usecase\UsecaseInterface;
 
