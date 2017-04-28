@@ -7,13 +7,13 @@ use Illuminate\Auth\AuthManager;
 use Illuminate\Routing\Controller;
 use App\Services\UserRegistrationService;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use App\Http\Request\Authentication\Email\PostSignUpRequest;
+use App\Http\Request\Authentication\Email\PostSignInRequest;
 
 /**
- * Class PostSignUp
+ * Class PostSignIn
  * @package App\Http\Action\Authentication\Email
  */
-class PostSignUp extends Controller
+class PostSignIn extends Controller
 {
     /**
      * @var \Illuminate\Contracts\Auth\Guard|\Illuminate\Contracts\Auth\StatefulGuard
@@ -30,17 +30,16 @@ class PostSignUp extends Controller
     }
     
     /**
-     * @param PostSignUpRequest       $request
+     * @param PostSignInRequest       $request
      * @param UserRegistrationService $service
      * @return RedirectResponse
      */
-    public function __invoke(PostSignUpRequest $request, UserRegistrationService $service): RedirectResponse
+    public function __invoke(PostSignInRequest $request, UserRegistrationService $service): RedirectResponse
     {
-        $name     = $request->get('name');
         $email    = $request->get('email');
         $password = $request->get('password');
-
-        $entity = $service->registerEmailUser($name, $email, $password);
+        
+        $entity = $service->registerValidEmailUser($email, $password);
         
         if ($this->auth->loginUsingId($entity->getUser()->getUserId())) {
             // auth success

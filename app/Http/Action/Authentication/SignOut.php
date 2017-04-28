@@ -42,6 +42,6 @@ class SignOut extends Controller
     {
         $this->session->flush();
         $this->auth->logout();
-        return redirect(route('index'));
+        return redirect(route('auth.get.sign_in'));
     }
 }

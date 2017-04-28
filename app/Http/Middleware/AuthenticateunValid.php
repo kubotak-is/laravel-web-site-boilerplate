@@ -6,7 +6,11 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Auth\AuthManager;
 
-class Authenticate
+/**
+ * Class AuthenticateUnValid
+ * @package App\Http\MiddlewareS
+ */
+class AuthenticateUnValid
 {
     /**
      * @var \Illuminate\Contracts\Auth\Guard|\Illuminate\Contracts\Auth\StatefulGuard
@@ -29,13 +33,10 @@ class Authenticate
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!$this->auth->check()) {
+        if ($this->auth->check()) {
             // not login
-            return redirect(route('auth.get.sign_in'));
+            return redirect(route('index'));
         }
-
-        $session = $request->session();
-        $session->put(['user_id' => $this->auth->id()]);
         
         return $next($request);
     }

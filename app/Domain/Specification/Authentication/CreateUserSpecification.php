@@ -67,6 +67,10 @@ class CreateUserSpecification implements SpecificationInterface, CriteriaBuilder
      */
     public function create(EntityInterface $entity): bool
     {
+        if (!$entity instanceof User) {
+            throw new \RuntimeException("Not Match Entity");
+        }
+        
         $attribute = [
             'user_id'         => $entity->getUserId(),
             'name'            => $entity->getName(),

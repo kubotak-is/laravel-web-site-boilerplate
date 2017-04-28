@@ -29,4 +29,10 @@ interface UsersMailCriteriaInterface extends CriteriaInterface
      * @return array
      */
     public function findById(string $userId): array;
+    
+    /**
+     * @param string $email
+     * @return array
+     */
+    public function findByEmail(string $email): array;
 }

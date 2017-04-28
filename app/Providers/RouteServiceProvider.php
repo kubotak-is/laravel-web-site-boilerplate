@@ -36,7 +36,7 @@ class RouteServiceProvider extends ServiceProvider
         /** @var Router $router */
         $router = $this->app['router'];
         
-        $router->group(['middleware' => 'web'], function (Router $router) {
+        $router->group(['middleware' => 'web', 'auth.valid'], function (Router $router) {
             $router->get('/', [
                 'as'   => 'index',
                 'uses' => Index::class,
@@ -49,7 +49,17 @@ class RouteServiceProvider extends ServiceProvider
         });
         
         // 未認証
-        $router->group(['middleware' => ['web', 'auth.valid']], function (Router $router) {
+        $router->group(['middleware' => ['web', 'auth.unValid']], function (Router $router) {
+            $router->get('/sign_in', [
+                'as'   => 'auth.get.sign_in',
+                'uses' => Email\GetSignIn::class,
+            ]);
+            
+            $router->post('/sign_in', [
+                'as'   => 'auth.post.sign_in',
+                'uses' => Email\PostSignIn::class,
+            ]);
+            
             $router->get('/sign_up', [
                 'as'   => 'auth.get.sign_up',
                 'uses' => Email\GetSignUp::class,

@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use App\Http\Middleware\Authenticate;
+use App\Http\Middleware\AuthenticateUnValid;
 use App\Http\Middleware\AuthenticateValid;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -52,7 +53,7 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
-        'auth'       => Authenticate::class,
-        'auth.valid' => AuthenticateValid::class,
+        'auth.valid'   => AuthenticateValid::class,
+        'auth.unValid' => AuthenticateUnValid::class,
     ];
 }

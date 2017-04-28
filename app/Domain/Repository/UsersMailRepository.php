@@ -34,4 +34,13 @@ class UsersMailRepository
     {
         return $this->specification->create($entity);
     }
+    
+    /**
+     * @param UserEmail $entity
+     * @return UserEmail
+     */
+    public function find(UserEmail $entity): UserEmail
+    {
+        return $this->specification->find($entity);
+    }
 }

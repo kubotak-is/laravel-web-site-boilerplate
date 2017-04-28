@@ -33,10 +33,14 @@ class AuthenticateValid
      */
     public function handle(Request $request, Closure $next)
     {
-        if ($this->auth->check()) {
-            // yet login
-            return redirect(route('index'));
+        if (!$this->auth->check()) {
+            // not login
+            return redirect(route('auth.get.sign_in'));
         }
+
+        $session = $request->session();
+        $session->put(['user_id' => $this->auth->id()]);
+        
         return $next($request);
     }
 }

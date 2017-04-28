@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Domain\Entity\{User, UserEmail};
-use App\Domain\UseCase\Authentication\{RegistrationToEmailUser, RegistrationToUser};
+use App\Domain\UseCase\Authentication\{RegistrationToEmailUser, RegistrationToUser, AuthenticationToEmailUser};
 use App\Domain\ValueObject\UserId;
 use ValueObjects\Web\EmailAddress;
 use Ytake\LaravelAspect\Annotation\{LogExceptions, Transactional};
@@ -26,17 +26,25 @@ class UserRegistrationService
     private $userEmailRegistration;
     
     /**
+     * @var AuthenticationToEmailUser
+     */
+    private $authenticationToEmailUser;
+    
+    /**
      * UserRegistrationService constructor.
-     * @param RegistrationToUser      $registrationToUser
-     * @param RegistrationToEmailUser $registrationToEmailUser
+     * @param RegistrationToUser        $registrationToUser
+     * @param RegistrationToEmailUser   $registrationToEmailUser
+     * @param AuthenticationToEmailUser $authenticationToEmailUser
      */
     public function __construct(
-        RegistrationToUser      $registrationToUser,
-        RegistrationToEmailUser $registrationToEmailUser
+        RegistrationToUser        $registrationToUser,
+        RegistrationToEmailUser   $registrationToEmailUser,
+        AuthenticationToEmailUser $authenticationToEmailUser
     )
     {
-        $this->userRegistration      = $registrationToUser;
-        $this->userEmailRegistration = $registrationToEmailUser;
+        $this->userRegistration          = $registrationToUser;
+        $this->userEmailRegistration     = $registrationToEmailUser;
+        $this->authenticationToEmailUser = $authenticationToEmailUser;
     }
     
     /**
@@ -62,5 +70,20 @@ class UserRegistrationService
         }
         
         return $newEmail;
+    }
+    
+    /**
+     * @Transactional("mysql")
+     * @LogExceptions()
+     * @param string $email
+     * @param string $password
+     * @return UserEmai
+     */
+    public function registerValidEmailUser(string $email, string $password): UserEmail
+    {
+        $newUser  = new User(new UserId);
+        $newEmail = new UserEmail($newUser, new EmailAddress($email));
+        $newEmail->setPassword($password);
+        return $this->authenticationToEmailUser->run($newEmail);
     }
 }

@@ -43,9 +43,7 @@ class UsersMailStorage extends MySQLConnection implements UsersMailCriteriaInter
     public function findById(string $userId): array
     {
         return $this->db->table(self::TABLE)
-            ->where([
-                'user_id' => $userId
-            ])
+            ->where('user_id', '=', $userId)
             ->get([
                 'user_id',
                 'email',
@@ -54,5 +52,29 @@ class UsersMailStorage extends MySQLConnection implements UsersMailCriteriaInter
                 'created_at',
             ])
             ->toArray();
+    }
+    
+    /**
+     * @param string $email
+     * @return array
+     */
+    public function findByEmail(string $email): array
+    {
+        return (array) $this->db->table(self::TABLE)
+            ->join(UsersStorage::TABLE, UsersStorage::TABLE.'.user_id', '=', self::TABLE.'.user_id')
+            ->where('email', $email)
+            ->where('deleted', false)
+            ->first([
+                UsersStorage::TABLE.'.user_id',
+                'name',
+                'frozen',
+                'last_login_time',
+                'email',
+                'password',
+                UsersStorage::TABLE.'.updated_at as user.updated_at',
+                UsersStorage::TABLE.'.created_at as user.created_at',
+                self::TABLE.'.updated_at',
+                self::TABLE.'.created_at',
+            ]);
     }
 }
