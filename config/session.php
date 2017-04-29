@@ -122,7 +122,7 @@ return [
     |
     */
 
-    'cookie' => 'web_site_boiler_template_session',
+    'cookie' => 'web_site_boilerplate_session',
 
     /*
     |--------------------------------------------------------------------------
