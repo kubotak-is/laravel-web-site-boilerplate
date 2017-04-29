@@ -5,9 +5,10 @@ namespace App\Domain\Specification\Authentication;
 
 use App\Domain\Entity\User;
 use App\Domain\Entity\UserEmail;
-use App\Domain\Criteria\UsersMailCriteriaInterface;
-use App\Domain\Exception\ValidPasswordException;
 use App\Domain\ValueObject\UserId;
+use App\Domain\Criteria\UsersMailCriteriaInterface;
+use App\Domain\Exception\NotFoundResourceException;
+use App\Domain\Exception\Authentication\ValidPasswordException;
 use PHPMentors\DomainKata\Entity\CriteriaInterface;
 use PHPMentors\DomainKata\Specification\SpecificationInterface;
 use PHPMentors\DomainKata\Entity\EntityInterface;
@@ -77,7 +78,7 @@ class FindMailUserSpecification implements SpecificationInterface, CriteriaBuild
         $result = $this->criteria->findByEmail($entity->getEmail());
         
         if (empty($result)) {
-            throw new \ErrorException("Not fount email");
+            throw new NotFoundResourceException("Not fount email");
         }
         
         // check password

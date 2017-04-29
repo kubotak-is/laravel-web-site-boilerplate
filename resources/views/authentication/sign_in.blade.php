@@ -17,6 +17,9 @@
             @endif
         </dd>
     </dl>
+    @if($errors->has('sign_in'))
+        {{ $errors->first('sign_in') }}<br>
+    @endif
     <input name="_token" type="hidden" value="{!! csrf_token() !!}">
     <button type="submit">SignIn</button>
 </form>
