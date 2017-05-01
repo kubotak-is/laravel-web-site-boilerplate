@@ -1,3 +1,9 @@
+# laravel-web-site-boilerplate
+[![Build Status](https://travis-ci.org/kubotak-is/laravel-web-site-boilerplate.svg?branch=master)](https://travis-ci.org/kubotak-is/laravel-web-site-boilerplate)
+[![Coverage Status](https://coveralls.io/repos/github/kubotak-is/laravel-web-site-boilerplate/badge.svg)](https://coveralls.io/github/kubotak-is/laravel-web-site-boilerplate)
+
+## WIP
+
 ## 実装パターン
 - ActionDomainResponder風
 - ドメイン駆動風
