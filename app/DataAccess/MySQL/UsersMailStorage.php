@@ -7,7 +7,7 @@ use App\Domain\Criteria\UsersMailCriteriaInterface;
 use Ytake\LaravelAspect\Annotation\Loggable;
 
 /**
- * Class UsersStorage
+ * Class UsersMailStorage
  * @package App\DataAccess\MySQL
  */
 class UsersMailStorage extends MySQLConnection implements UsersMailCriteriaInterface
@@ -55,8 +55,7 @@ class UsersMailStorage extends MySQLConnection implements UsersMailCriteriaInter
     }
     
     /**
-     * @param string $email
-     * @return array
+     * {@inheritdoc}
      */
     public function findByEmail(string $email): array
     {
