@@ -97,7 +97,7 @@ class RouteServiceProvider extends ServiceProvider
             ]);
             
             /**
-             * Auth Facebook(only on https)
+             * Auth Facebook
              */
             $router->get('/facebook', [
                 'as'   => 'auth.facebook',

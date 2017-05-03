@@ -2,10 +2,11 @@
 
 namespace App\Providers;
 
+use App\DataAccess\MySQL\UsersFacebookStorage;
 use App\DataAccess\MySQL\UsersMailStorage;
 use App\DataAccess\MySQL\UsersStorage;
 use App\Domain\Criteria\{
-    UsersCriteriaInterface, UsersMailCriteriaInterface
+    UsersCriteriaInterface, UsersFacebookCriteriaInterface, UsersMailCriteriaInterface
 };
 use Illuminate\Support\ServiceProvider;
 
@@ -43,8 +44,9 @@ class CriteriaServiceProvider extends ServiceProvider
     private function bindMap(): array
     {
         return [
-            UsersCriteriaInterface::class     => UsersStorage::class,
-            UsersMailCriteriaInterface::class => UsersMailStorage::class,
+            UsersCriteriaInterface::class         => UsersStorage::class,
+            UsersMailCriteriaInterface::class     => UsersMailStorage::class,
+            UsersFacebookCriteriaInterface::class => UsersFacebookStorage::class,
         ];
     }
 }

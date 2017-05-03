@@ -12,5 +12,6 @@ class LogExceptionsModule extends PackageLogExceptionsModule
     /** @var array */
     protected $classes = [
         \App\Services\UserRegistrationService::class,
+        \App\Services\UserFacebookRegistrationService::class,
     ];
 }

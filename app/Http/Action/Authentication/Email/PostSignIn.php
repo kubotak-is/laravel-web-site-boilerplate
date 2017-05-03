@@ -45,7 +45,7 @@ class PostSignIn extends Controller
         $password = $request->get('password');
         
         try {
-            $entity = $service->registerValidEmailUser($email, $password);
+            $entity = $service->authenticationEmailUser($email, $password);
     
             if ($this->auth->loginUsingId($entity->getUser()->getUserId())) {
                 // auth success

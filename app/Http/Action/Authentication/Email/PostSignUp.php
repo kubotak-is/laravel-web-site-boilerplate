@@ -48,6 +48,4 @@ class PostSignUp extends Controller
         }
         return redirect(route('auth.get.sign_up'));
     }
-    
-    
 }

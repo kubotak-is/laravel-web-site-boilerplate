@@ -12,10 +12,10 @@ use PHPMentors\DomainKata\Entity\EntityInterface;
 use PHPMentors\DomainKata\Repository\Operation\CriteriaBuilderInterface;
 
 /**
- * Class CreateMailUserSpecification
+ * Class CreateUserEmailSpecification
  * @package App\Domain\Specification
  */
-class CreateMailUserSpecification implements SpecificationInterface, CriteriaBuilderInterface
+class CreateUserEmailSpecification implements SpecificationInterface, CriteriaBuilderInterface
 {
     /**
      * @var UsersMailCriteriaInterface
@@ -67,7 +67,7 @@ class CreateMailUserSpecification implements SpecificationInterface, CriteriaBui
     public function create(EntityInterface $entity): bool
     {
         if (!$entity instanceof UserEmail) {
-            throw new \RuntimeException("Not Match Entity");
+            throw new \RuntimeException("Not Match UserEmail");
         }
         
         $attribute = [

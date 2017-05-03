@@ -3,42 +3,41 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Domain\Entity\{User, UserEmail};
-use App\Domain\UseCase\Authentication\{RegistrationToEmailUser, RegistrationToUser, AuthenticationToEmailUser};
+use App\Domain\Entity\{
+    User, UserEmail
+};
+use App\Domain\UseCase\Authentication\{
+    RegistrationToUserEmail, RegistrationToUser, AuthenticationToEmailUser
+};
 use App\Domain\ValueObject\UserId;
 use ValueObjects\Web\EmailAddress;
+use PHPMentors\DomainKata\Service\ServiceInterface;
 use Ytake\LaravelAspect\Annotation\{LogExceptions, Transactional};
 
 /**
  * Class UserRegistrationService
  * @package App\Services
  */
-class UserRegistrationService
+class UserRegistrationService implements ServiceInterface
 {
-    /**
-     * @var RegistrationToUser
-     */
+    /** @var RegistrationToUser */
     private $userRegistration;
     
-    /**
-     * @var RegistrationToEmailUser
-     */
+    /** @var RegistrationToUserEmail */
     private $userEmailRegistration;
     
-    /**
-     * @var AuthenticationToEmailUser
-     */
+    /** @var AuthenticationToEmailUser */
     private $authenticationToEmailUser;
     
     /**
      * UserRegistrationService constructor.
      * @param RegistrationToUser        $registrationToUser
-     * @param RegistrationToEmailUser   $registrationToEmailUser
+     * @param RegistrationToUserEmail   $registrationToEmailUser
      * @param AuthenticationToEmailUser $authenticationToEmailUser
      */
     public function __construct(
         RegistrationToUser        $registrationToUser,
-        RegistrationToEmailUser   $registrationToEmailUser,
+        RegistrationToUserEmail   $registrationToEmailUser,
         AuthenticationToEmailUser $authenticationToEmailUser
     )
     {
@@ -73,13 +72,12 @@ class UserRegistrationService
     }
     
     /**
-     * @Transactional("mysql")
      * @LogExceptions()
      * @param string $email
      * @param string $password
-     * @return UserEmai
+     * @return UserEmail
      */
-    public function registerValidEmailUser(string $email, string $password): UserEmail
+    public function authenticationEmailUser(string $email, string $password): UserEmail
     {
         $newUser  = new User(new UserId);
         $newEmail = new UserEmail($newUser, new EmailAddress($email));

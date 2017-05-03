@@ -16,7 +16,7 @@ class User implements AggregateRoot, EntityInterface
     private $userId;
     
     /** @var string */
-    private $name;
+    private $name = 'NoName';
     
     /** @var bool */
     private $frozen = false;

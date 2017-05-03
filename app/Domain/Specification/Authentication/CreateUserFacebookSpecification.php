@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace App\Domain\Specification\Authentication;
 
-use App\Domain\Entity\User;
-use App\Domain\Criteria\UsersCriteriaInterface;
+use App\Domain\Criteria\UsersFacebookCriteriaInterface;
+use App\Domain\Entity\UserFacebook;
 use App\Domain\ValueObject\DbDateTimeFormat;
 use PHPMentors\DomainKata\Entity\CriteriaInterface;
 use PHPMentors\DomainKata\Specification\SpecificationInterface;
@@ -12,41 +12,40 @@ use PHPMentors\DomainKata\Entity\EntityInterface;
 use PHPMentors\DomainKata\Repository\Operation\CriteriaBuilderInterface;
 
 /**
- * Class CreateUserSpecification
- * @package App\Domain\Specification
+ * Class CreateUserFacebookSpecification
+ * @package App\Domain\Specification\Authentication
  */
-class CreateUserSpecification implements SpecificationInterface, CriteriaBuilderInterface
+class CreateUserFacebookSpecification implements SpecificationInterface, CriteriaBuilderInterface
 {
     /**
-     * @var UsersCriteriaInterface
+     * @var UsersFacebookCriteriaInterface
      */
     protected $criteria;
     
     /**
-     * CreateUserSpecification constructor.
-     * @param UsersCriteriaInterface $criteria
+     * CreateUserFacebookSpecification constructor.
+     * @param UsersFacebookCriteriaInterface $criteria
      */
-    public function __construct(UsersCriteriaInterface $criteria)
+    public function __construct(UsersFacebookCriteriaInterface $criteria)
     {
         $this->criteria = $criteria;
     }
     
     /**
-     * @param EntityInterface|User $entity
+     * @param EntityInterface|UserFacebook $entity
      * @return bool
      */
     public function isSatisfiedBy(EntityInterface $entity): bool
     {
-        if ($entity->isDeleted()) {
+        if (empty($entity->getFacebookId())) {
             return false;
         }
-    
-        if ($entity->isFrozen()) {
-            return false;
         
+        if (empty($entity->getToken())) {
+            return false;
         }
         
-        if (!is_string($entity->getUserId())) {
+        if (!is_string($entity->getUser()->getUserId())) {
             return false;
         }
         
@@ -62,27 +61,24 @@ class CreateUserSpecification implements SpecificationInterface, CriteriaBuilder
     }
     
     /**
-     * @param EntityInterface|User $entity
+     * @param EntityInterface|UserFacebook $entity
      * @return bool
      */
     public function create(EntityInterface $entity): bool
     {
-        if (!$entity instanceof User) {
-            throw new \RuntimeException("Not Match User");
+        if (!$entity instanceof UserFacebook) {
+            throw new \RuntimeException("Not Match UserFacebook");
         }
         
         $attribute = [
-            'user_id'         => $entity->getUserId(),
-            'name'            => $entity->getName(),
-            'last_login_time' =>
-                (new \DateTime)
-                    ->setTimestamp($entity->getLastLoginTime())
-                    ->format(DbDateTimeFormat::FORMAT),
-            'updated_at'      =>
+            'user_id'     => $entity->getUser()->getUserId(),
+            'facebook_id' => $entity->getFacebookId(),
+            'token'       => $entity->getToken(),
+            'updated_at'  =>
                 (new \DateTime)
                     ->setTimestamp($entity->getUpdatedAt())
                     ->format(DbDateTimeFormat::FORMAT),
-            'created_at'      =>
+            'created_at'  =>
                 (new \DateTime)
                     ->setTimestamp($entity->getCreatedAt())
                     ->format(DbDateTimeFormat::FORMAT),

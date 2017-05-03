@@ -5,10 +5,9 @@ namespace App\Domain\Specification\Authentication;
 
 use App\Domain\Entity\User;
 use App\Domain\Entity\UserEmail;
+use App\Domain\Exception\NotFoundResourceException;
 use App\Domain\ValueObject\UserId;
 use App\Domain\Criteria\UsersMailCriteriaInterface;
-use App\Domain\Exception\NotFoundResourceException;
-use App\Domain\Exception\Authentication\ValidPasswordException;
 use PHPMentors\DomainKata\Entity\CriteriaInterface;
 use PHPMentors\DomainKata\Specification\SpecificationInterface;
 use PHPMentors\DomainKata\Entity\EntityInterface;
@@ -16,10 +15,10 @@ use PHPMentors\DomainKata\Repository\Operation\CriteriaBuilderInterface;
 use ValueObjects\Web\EmailAddress;
 
 /**
- * Class FindMailUserSpecification
+ * Class FindUserEmailSpecification
  * @package App\Domain\Specification\Authentication
  */
-class FindMailUserSpecification implements SpecificationInterface, CriteriaBuilderInterface
+class FindUserEmailSpecification implements SpecificationInterface, CriteriaBuilderInterface
 {
     /**
      * @var UsersMailCriteriaInterface
@@ -27,7 +26,7 @@ class FindMailUserSpecification implements SpecificationInterface, CriteriaBuild
     protected $criteria;
     
     /**
-     * CreateUserSpecification constructor.
+     * AuthenticationUserEmailSpecification constructor.
      * @param UsersMailCriteriaInterface $criteria
      */
     public function __construct(UsersMailCriteriaInterface $criteria)
@@ -45,14 +44,6 @@ class FindMailUserSpecification implements SpecificationInterface, CriteriaBuild
             return false;
         }
         
-        if (empty($entity->getPassword())) {
-            return false;
-        }
-        
-        if (!is_string($entity->getUser()->getUserId())) {
-            return false;
-        }
-        
         return true;
     }
     
@@ -65,25 +56,19 @@ class FindMailUserSpecification implements SpecificationInterface, CriteriaBuild
     }
     
     /**
-     * @param EntityInterface|UserEmail $entity
+     * @param EntityInterface $entity
      * @return UserEmail
-     * @throws \ErrorException
      */
     public function find(EntityInterface $entity): UserEmail
     {
         if (!$entity instanceof UserEmail) {
-            throw new \RuntimeException("Not Match Entity");
+            throw new \RuntimeException("Not Match UserEmail");
         }
         
         $result = $this->criteria->findByEmail($entity->getEmail());
         
         if (empty($result)) {
-            throw new NotFoundResourceException("Not fount email");
-        }
-        
-        // check password
-        if (!password_verify($entity->getPassword(), $result['password'])) {
-            throw new ValidPasswordException("Valid Password");
+            throw new NotFoundResourceException("Not Found UserEmail");
         }
         
         $user  = new User(new UserId($result['user_id']));

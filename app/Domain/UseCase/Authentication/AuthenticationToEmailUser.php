@@ -5,8 +5,7 @@ namespace App\Domain\UseCase\Authentication;
 
 use App\Domain\Entity\UserEmail;
 use App\Domain\Repository\UsersMailRepository;
-use App\Domain\Specification\Authentication\CreateMailUserSpecification;
-use App\Domain\Specification\Authentication\FindMailUserSpecification;
+use App\Domain\Specification\Authentication\AuthenticationUserEmailSpecification;
 use PHPMentors\DomainKata\Entity\EntityInterface;
 use PHPMentors\DomainKata\Usecase\UsecaseInterface;
 
@@ -17,15 +16,15 @@ use PHPMentors\DomainKata\Usecase\UsecaseInterface;
 class AuthenticationToEmailUser implements UsecaseInterface
 {
     /**
-     * @var FindMailUserSpecification
+     * @var AuthenticationUserEmailSpecification
      */
     private $findMailUserSpecification;
     
     /**
      * AuthenticationToEmailUser constructor.
-     * @param FindMailUserSpecification $specification
+     * @param AuthenticationUserEmailSpecification $specification
      */
-    public function __construct(FindMailUserSpecification $specification)
+    public function __construct(AuthenticationUserEmailSpecification $specification)
     {
         $this->findMailUserSpecification = $specification;
     }

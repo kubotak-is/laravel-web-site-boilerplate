@@ -21,7 +21,7 @@ class RegistrationToUser implements UsecaseInterface
     private $createUserSpecification;
     
     /**
-     * RegistrationToEmailUser constructor.
+     * RegistrationToUserEmail constructor.
      * @param CreateUserSpecification $specification
      */
     public function __construct(
