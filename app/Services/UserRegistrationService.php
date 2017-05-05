@@ -7,7 +7,7 @@ use App\Domain\Entity\{
     User, UserEmail
 };
 use App\Domain\UseCase\Authentication\{
-    RegistrationToUserEmail, RegistrationToUser, AuthenticationToEmailUser
+    RegistrationToUserEmail, RegistrationToUser, AuthenticationToUserEmail
 };
 use App\Domain\ValueObject\UserId;
 use ValueObjects\Web\EmailAddress;
@@ -26,24 +26,24 @@ class UserRegistrationService implements ServiceInterface
     /** @var RegistrationToUserEmail */
     private $userEmailRegistration;
     
-    /** @var AuthenticationToEmailUser */
-    private $authenticationToEmailUser;
+    /** @var AuthenticationToUserEmail */
+    private $authenticationToUserEmail;
     
     /**
      * UserRegistrationService constructor.
      * @param RegistrationToUser        $registrationToUser
      * @param RegistrationToUserEmail   $registrationToEmailUser
-     * @param AuthenticationToEmailUser $authenticationToEmailUser
+     * @param AuthenticationToUserEmail $authenticationToEmailUser
      */
     public function __construct(
         RegistrationToUser        $registrationToUser,
         RegistrationToUserEmail   $registrationToEmailUser,
-        AuthenticationToEmailUser $authenticationToEmailUser
+        AuthenticationToUserEmail $authenticationToEmailUser
     )
     {
         $this->userRegistration          = $registrationToUser;
         $this->userEmailRegistration     = $registrationToEmailUser;
-        $this->authenticationToEmailUser = $authenticationToEmailUser;
+        $this->authenticationToUserEmail = $authenticationToEmailUser;
     }
     
     /**
@@ -54,7 +54,7 @@ class UserRegistrationService implements ServiceInterface
      * @param string $password
      * @return UserEmail
      */
-    public function registerEmailUser(string $name, string $email, string $password): UserEmail
+    public function registerUserEmail(string $name, string $email, string $password): UserEmail
     {
         $newUser = new User(new UserId);
         $newUser->setName($name);
@@ -77,11 +77,11 @@ class UserRegistrationService implements ServiceInterface
      * @param string $password
      * @return UserEmail
      */
-    public function authenticationEmailUser(string $email, string $password): UserEmail
+    public function authenticationUserEmail(string $email, string $password): UserEmail
     {
         $newUser  = new User(new UserId);
         $newEmail = new UserEmail($newUser, new EmailAddress($email));
         $newEmail->setPassword($password);
-        return $this->authenticationToEmailUser->run($newEmail);
+        return $this->authenticationToUserEmail->run($newEmail);
     }
 }

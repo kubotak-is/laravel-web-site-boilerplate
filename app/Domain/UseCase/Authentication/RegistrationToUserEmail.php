@@ -11,7 +11,7 @@ use PHPMentors\DomainKata\Usecase\UsecaseInterface;
 
 /**
  * Class RegistrationToUserEmail
- * @package App\Domain\UseCase
+ * @package App\Domain\UseCase\Authentication
  */
 class RegistrationToUserEmail implements UsecaseInterface
 {

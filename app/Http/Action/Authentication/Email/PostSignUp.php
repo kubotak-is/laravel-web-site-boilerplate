@@ -33,6 +33,7 @@ class PostSignUp extends Controller
      * @param PostSignUpRequest       $request
      * @param UserRegistrationService $service
      * @return RedirectResponse
+     * @throws \ErrorException
      */
     public function __invoke(PostSignUpRequest $request, UserRegistrationService $service): RedirectResponse
     {
@@ -40,12 +41,13 @@ class PostSignUp extends Controller
         $email    = $request->get('email');
         $password = $request->get('password');
 
-        $entity = $service->registerEmailUser($name, $email, $password);
+        $entity = $service->registerUserEmail($name, $email, $password);
         
-        if ($this->auth->loginUsingId($entity->getUser()->getUserId())) {
-            // auth success
-            return redirect(route('index'));
+        if (!$this->auth->loginUsingId($entity->getUser()->getUserId())) {
+            throw new \ErrorException("Failed Auth Email");
         }
-        return redirect(route('auth.get.sign_up'));
+    
+        // auth success
+        return redirect(route('index'));
     }
 }

@@ -10,10 +10,10 @@ use PHPMentors\DomainKata\Entity\EntityInterface;
 use PHPMentors\DomainKata\Usecase\UsecaseInterface;
 
 /**
- * Class AuthenticationToEmailUser
+ * Class AuthenticationToUserEmail
  * @package App\Domain\UseCase\Authentication
  */
-class AuthenticationToEmailUser implements UsecaseInterface
+class AuthenticationToUserEmail implements UsecaseInterface
 {
     /**
      * @var AuthenticationUserEmailSpecification
@@ -21,7 +21,7 @@ class AuthenticationToEmailUser implements UsecaseInterface
     private $findMailUserSpecification;
     
     /**
-     * AuthenticationToEmailUser constructor.
+     * AuthenticationToUserEmail constructor.
      * @param AuthenticationUserEmailSpecification $specification
      */
     public function __construct(AuthenticationUserEmailSpecification $specification)
