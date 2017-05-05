@@ -46,7 +46,8 @@ class UsersTwitterStorage extends MySQLConnection implements UsersTwitterCriteri
             ->where('user_id', '=', $userId)
             ->get([
                 'user_id',
-                'facebook_id',
+                'twitter_id',
+                'nickname',
                 'token',
                 'token_secret',
                 'updated_at',
