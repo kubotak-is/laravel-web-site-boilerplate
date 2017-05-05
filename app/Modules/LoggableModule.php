@@ -3,7 +3,7 @@
 namespace App\Modules;
 
 use App\DataAccess\MySQL\{
-    UsersFacebookStorage, UsersStorage, UsersMailStorage, UsersTwitterStorage
+    UsersFacebookStorage, UsersGoogleStorage, UsersStorage, UsersMailStorage, UsersTwitterStorage
 };
 use Ytake\LaravelAspect\Modules\LoggableModule as PackageLoggableModule;
 
@@ -18,5 +18,6 @@ class LoggableModule extends PackageLoggableModule
         UsersMailStorage::class,
         UsersFacebookStorage::class,
         UsersTwitterStorage::class,
+        UsersGoogleStorage::class,
     ];
 }

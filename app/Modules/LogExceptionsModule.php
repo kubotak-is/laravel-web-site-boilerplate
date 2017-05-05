@@ -14,5 +14,6 @@ class LogExceptionsModule extends PackageLogExceptionsModule
         \App\Services\UserRegistrationService::class,
         \App\Services\UserFacebookRegistrationService::class,
         \App\Services\UserTwitterRegistrationService::class,
+        \App\Services\UserGoogleRegistrationService::class,
     ];
 }

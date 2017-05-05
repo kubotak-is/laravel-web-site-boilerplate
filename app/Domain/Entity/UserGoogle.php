@@ -47,14 +47,6 @@ class UserGoogle implements EntityInterface
     }
     
     /**
-     * @param string $tokenSecret
-     */
-    public function setTokenSecret(string $tokenSecret)
-    {
-        $this->tokenSecret = $tokenSecret;
-    }
-    
-    /**
      * @param \DateTime $updatedAt
      */
     public function setUpdatedAt(\DateTime $updatedAt)
