@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Http\Action\Authentication\Facebook;
 
-use App\Domain\Entity\UserFacebook;
 use App\Domain\Exception\NotFoundResourceException;
 use App\Domain\InOut\FacebookAttribute;
 use App\Services\UserFacebookRegistrationService;

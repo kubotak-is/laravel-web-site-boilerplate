@@ -5,19 +5,18 @@ namespace App\Domain\UseCase\Authentication;
 
 use App\Domain\Entity\UserFacebook;
 use App\Domain\Repository\UsersFacebookRepository;
-use App\Domain\Specification\Authentication\FindUserEmailSpecification;
 use App\Domain\Specification\Authentication\FindUserFacebookSpecification;
 use PHPMentors\DomainKata\Entity\EntityInterface;
 use PHPMentors\DomainKata\Usecase\UsecaseInterface;
 
 /**
- * Class FindUserEmail
+ * Class FindUserFacebook
  * @package App\Domain\UseCase\Authentication
  */
 class FindUserFacebook implements UsecaseInterface
 {
     /**
-     * @var FindUserEmailSpecification
+     * @var FindUserFacebookSpecification
      */
     private $findUserFacebookSpecification;
     

@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Domain\UseCase\Authentication;
 
-
 use App\Domain\Entity\UserFacebook;
 use App\Domain\Repository\UsersFacebookRepository;
 use App\Domain\Specification\Authentication\CreateUserFacebookSpecification;

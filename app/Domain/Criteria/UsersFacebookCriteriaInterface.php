@@ -31,7 +31,7 @@ interface UsersFacebookCriteriaInterface extends CriteriaInterface
     public function findById(string $userId): array;
     
     /**
-     * @param string $email
+     * @param string $facebookId
      * @return array
      */
     public function findByFacebookId(string $facebookId): array;
