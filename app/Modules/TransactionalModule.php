@@ -13,5 +13,6 @@ class TransactionalModule extends PackageTransactionalModule
     protected $classes = [
         \App\Services\UserRegistrationService::class,
         \App\Services\UserFacebookRegistrationService::class,
+        \App\Services\UserTwitterRegistrationService::class,
     ];
 }
