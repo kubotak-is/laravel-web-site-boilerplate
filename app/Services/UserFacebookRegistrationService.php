@@ -91,7 +91,6 @@ class UserFacebookRegistrationService implements ServiceInterface
      * @LogExceptions()
      * @param FacebookAttribute $attribute
      * @return UserFacebook
-     * // TODO TokenUpdate
      */
     public function authenticationFacebook(FacebookAttribute $attribute): UserFacebook
     {
