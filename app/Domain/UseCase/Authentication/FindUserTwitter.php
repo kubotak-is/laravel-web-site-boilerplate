@@ -20,7 +20,10 @@ class FindUserTwitter implements UsecaseInterface
      */
     private $findUserTwitterSpecification;
     
-    
+    /**
+     * FindUserTwitter constructor.
+     * @param FindUserTwitterSpecification $specification
+     */
     public function __construct(FindUserTwitterSpecification $specification)
     {
         $this->findUserTwitterSpecification = $specification;

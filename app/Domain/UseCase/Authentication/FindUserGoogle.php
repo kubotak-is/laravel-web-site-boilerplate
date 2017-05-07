@@ -20,7 +20,10 @@ class FindUserGoogle implements UsecaseInterface
      */
     private $findUserGoogleSpecification;
     
-    
+    /**
+     * FindUserGoogle constructor.
+     * @param FindUserGoogleSpecification $specification
+     */
     public function __construct(FindUserGoogleSpecification $specification)
     {
         $this->findUserGoogleSpecification = $specification;

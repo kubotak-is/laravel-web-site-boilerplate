@@ -108,7 +108,7 @@ class UserGoogleRegistrationService implements ServiceInterface
                 new EmailAddress($attribute->email)
             );
             $findUserEmail = $this->findUserEmail->run($newEmail);
-            // メールアドレスユーザを既に持っているため、userIdを紐付けてFacebookユーザアカウントを作成
+            // メールアドレスユーザを既に持っているため、userIdを紐付けてGoogleユーザアカウントを作成
             $newGoogle = new UserGoogle($findUserEmail->getUser(), new GoogleId($attribute->id));
             $newGoogle->setToken($attribute->token);
             $entity = $this->createUser($newGoogle);
