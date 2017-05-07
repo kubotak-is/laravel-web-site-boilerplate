@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Modules;
+namespace App\Aspect\Modules;
 
-use Ytake\LaravelAspect\Modules\TransactionalModule as PackageTransactionalModule;
+use Ytake\LaravelAspect\Modules\LogExceptionsModule as PackageLogExceptionsModule;
 
 /**
- * Class TransactionalModule
+ * Class LogExceptionsModule
  */
-class TransactionalModule extends PackageTransactionalModule
+class LogExceptionsModule extends PackageLogExceptionsModule
 {
     /** @var array */
     protected $classes = [

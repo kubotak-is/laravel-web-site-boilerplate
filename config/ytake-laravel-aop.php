@@ -42,14 +42,16 @@ return [
             ]
         ],
         'modules' => [
-            App\Modules\CacheableModule::class,
-            App\Modules\CacheEvictModule::class,
-            App\Modules\CachePutModule::class,
-            App\Modules\LogExceptionsModule::class,
-            App\Modules\LoggableModule::class,
-            App\Modules\PostConstructModule::class,
-            App\Modules\RetryOnFailureModule::class,
-            App\Modules\TransactionalModule::class,
+            App\Aspect\Modules\CacheableModule::class,
+            App\Aspect\Modules\CacheEvictModule::class,
+            App\Aspect\Modules\CachePutModule::class,
+            App\Aspect\Modules\LogExceptionsModule::class,
+            App\Aspect\Modules\LoggableModule::class,
+            App\Aspect\Modules\PostConstructModule::class,
+            App\Aspect\Modules\RetryOnFailureModule::class,
+            App\Aspect\Modules\TransactionalModule::class,
+            // Add
+            App\Aspect\Modules\UpdateLastLoginTimeModule::class,
         ],
     ],
 

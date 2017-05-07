@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules;
+namespace App\Aspect\Modules;
 
 use Ytake\LaravelAspect\Modules\RetryOnFailureModule as PackageRetryOnFailureModule;
 

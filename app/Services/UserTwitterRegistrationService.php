@@ -14,6 +14,7 @@ use App\Domain\ValueObject\TwitterId;
 use App\Domain\ValueObject\UserId;
 use PHPMentors\DomainKata\Service\ServiceInterface;
 use Ytake\LaravelAspect\Annotation\{LogExceptions, Transactional};
+use App\Aspect\Annotation\UpdateLastLoginTime;
 
 /**
  * Class UserTwitterRegistrationService
@@ -81,6 +82,7 @@ class UserTwitterRegistrationService implements ServiceInterface
     }
     
     /**
+     * @UpdateLastLoginTime()
      * @LogExceptions()
      * @param TwitterAttribute $attribute
      * @return UserTwitter

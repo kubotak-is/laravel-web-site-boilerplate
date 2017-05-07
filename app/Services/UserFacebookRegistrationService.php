@@ -16,6 +16,7 @@ use App\Domain\ValueObject\UserId;
 use ValueObjects\Web\EmailAddress;
 use PHPMentors\DomainKata\Service\ServiceInterface;
 use Ytake\LaravelAspect\Annotation\{LogExceptions, Transactional};
+use App\Aspect\Annotation\UpdateLastLoginTime;
 
 /**
  * Class UserFacebookRegistrationService
@@ -89,6 +90,7 @@ class UserFacebookRegistrationService implements ServiceInterface
     /**
      * @Transactional("mysql")
      * @LogExceptions()
+     * @UpdateLastLoginTime
      * @param FacebookAttribute $attribute
      * @return UserFacebook
      */

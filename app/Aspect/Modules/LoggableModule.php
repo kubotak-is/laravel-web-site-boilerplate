@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules;
+namespace App\Aspect\Modules;
 
 use App\DataAccess\MySQL\{
     UsersFacebookStorage, UsersGoogleStorage, UsersStorage, UsersMailStorage, UsersTwitterStorage

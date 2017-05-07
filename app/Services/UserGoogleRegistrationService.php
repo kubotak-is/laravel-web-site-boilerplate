@@ -16,6 +16,7 @@ use App\Domain\ValueObject\UserId;
 use ValueObjects\Web\EmailAddress;
 use PHPMentors\DomainKata\Service\ServiceInterface;
 use Ytake\LaravelAspect\Annotation\{LogExceptions, Transactional};
+use App\Aspect\Annotation\UpdateLastLoginTime;
 
 /**
  * Class UserGoogleRegistrationService
@@ -89,6 +90,7 @@ class UserGoogleRegistrationService implements ServiceInterface
     /**
      * @Transactional("mysql")
      * @LogExceptions()
+     * @UpdateLastLoginTime()
      * @param GoogleAttribute $attribute
      * @return UserGoogle
      */

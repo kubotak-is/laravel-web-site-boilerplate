@@ -13,6 +13,7 @@ use App\Domain\ValueObject\UserId;
 use ValueObjects\Web\EmailAddress;
 use PHPMentors\DomainKata\Service\ServiceInterface;
 use Ytake\LaravelAspect\Annotation\{LogExceptions, Transactional};
+use App\Aspect\Annotation\UpdateLastLoginTime;
 
 /**
  * Class UserRegistrationService
@@ -72,6 +73,7 @@ class UserRegistrationService implements ServiceInterface
     }
     
     /**
+     * @UpdateLastLoginTime()
      * @LogExceptions()
      * @param string $email
      * @param string $password

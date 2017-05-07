@@ -34,4 +34,13 @@ class UsersRepository
     {
         return $this->specification->create($entity);
     }
+    
+    /**
+     * @param User $entity
+     * @return mixed
+     */
+    public function update(User $entity)
+    {
+        return $this->specification->update($entity);
+    }
 }
