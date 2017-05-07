@@ -3,12 +3,13 @@
 namespace App\Providers;
 
 use App\DataAccess\MySQL\UsersFacebookStorage;
+use App\DataAccess\MySQL\UsersGithubStorage;
 use App\DataAccess\MySQL\UsersGoogleStorage;
 use App\DataAccess\MySQL\UsersMailStorage;
 use App\DataAccess\MySQL\UsersStorage;
 use App\DataAccess\MySQL\UsersTwitterStorage;
 use App\Domain\Criteria\{
-    UsersCriteriaInterface, UsersFacebookCriteriaInterface, UsersGoogleCriteriaInterface, UsersMailCriteriaInterface, UsersTwitterCriteriaInterface
+    UsersCriteriaInterface, UsersFacebookCriteriaInterface, UsersGithubCriteriaInterface, UsersGoogleCriteriaInterface, UsersMailCriteriaInterface, UsersTwitterCriteriaInterface
 };
 use Illuminate\Support\ServiceProvider;
 
@@ -51,6 +52,7 @@ class CriteriaServiceProvider extends ServiceProvider
             UsersFacebookCriteriaInterface::class => UsersFacebookStorage::class,
             UsersTwitterCriteriaInterface::class  => UsersTwitterStorage::class,
             UsersGoogleCriteriaInterface::class   => UsersGoogleStorage::class,
+            UsersGithubCriteriaInterface::class   => UsersGithubStorage::class,
         ];
     }
 }
