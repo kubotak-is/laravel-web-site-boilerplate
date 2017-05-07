@@ -7,6 +7,7 @@ use App\Domain\Criteria\UsersGithubCriteriaInterface;
 use App\Domain\Entity\User;
 use App\Domain\Entity\UserGithub;
 use App\Domain\Exception\NotFoundResourceException;
+use App\Domain\ValueObject\GithubId;
 use App\Domain\ValueObject\UserId;
 use PHPMentors\DomainKata\Entity\EntityInterface;
 use PHPMentors\DomainKata\Entity\CriteriaInterface;
@@ -78,7 +79,7 @@ class FindUserGithubSpecification implements SpecificationInterface, CriteriaBui
         $user->setUpdatedAt(new \DateTime($result['user.updated_at']));
         $user->setCreatedAt(new \DateTime($result['user.created_at']));
         
-        $github = new UserGithub($user, $result['github_id']);
+        $github = new UserGithub($user, new GithubId($result['github_id']));
         $github->setToken($result['token']);
         $github->setNickname($result['nickname']);
         $github->setUpdatedAt(new \DateTime($result['updated_at']));

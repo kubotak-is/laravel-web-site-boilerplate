@@ -6,6 +6,7 @@ namespace App\Domain\Specification\Authentication;
 use App\Domain\Entity\User;
 use App\Domain\Entity\UserTwitter;
 use App\Domain\Exception\NotFoundResourceException;
+use App\Domain\ValueObject\TwitterId;
 use App\Domain\ValueObject\UserId;
 use App\Domain\Criteria\UsersTwitterCriteriaInterface;
 use PHPMentors\DomainKata\Entity\EntityInterface;
@@ -82,7 +83,7 @@ class FindUserTwitterSpecification implements SpecificationInterface, CriteriaBu
         $user->setUpdatedAt(new \DateTime($result['user.updated_at']));
         $user->setCreatedAt(new \DateTime($result['user.created_at']));
         
-        $twitter = new UserTwitter($user, $result['twitter_id']);
+        $twitter = new UserTwitter($user, new TwitterId($result['twitter_id']));
         $twitter->setToken($result['token']);
         $twitter->setNickname($result['nickname']);
         $twitter->setTokenSecret($result['token_secret']);

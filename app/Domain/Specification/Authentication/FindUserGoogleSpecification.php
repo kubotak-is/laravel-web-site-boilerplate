@@ -7,6 +7,7 @@ use App\Domain\Criteria\UsersGoogleCriteriaInterface;
 use App\Domain\Entity\User;
 use App\Domain\Entity\UserGoogle;
 use App\Domain\Exception\NotFoundResourceException;
+use App\Domain\ValueObject\GoogleId;
 use App\Domain\ValueObject\UserId;
 use PHPMentors\DomainKata\Entity\EntityInterface;
 use PHPMentors\DomainKata\Entity\CriteriaInterface;
@@ -78,7 +79,7 @@ class FindUserGoogleSpecification implements SpecificationInterface, CriteriaBui
         $user->setUpdatedAt(new \DateTime($result['user.updated_at']));
         $user->setCreatedAt(new \DateTime($result['user.created_at']));
         
-        $google = new UserGoogle($user, $result['google_id']);
+        $google = new UserGoogle($user, new GoogleId($result['google_id']));
         $google->setToken($result['token']);
         $google->setUpdatedAt(new \DateTime($result['updated_at']));
         $google->setCreatedAt(new \DateTime($result['created_at']));

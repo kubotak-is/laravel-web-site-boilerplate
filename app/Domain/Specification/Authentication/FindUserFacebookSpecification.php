@@ -6,6 +6,7 @@ namespace App\Domain\Specification\Authentication;
 use App\Domain\Entity\User;
 use App\Domain\Entity\UserFacebook;
 use App\Domain\Exception\NotFoundResourceException;
+use App\Domain\ValueObject\FacebookId;
 use App\Domain\ValueObject\UserId;
 use App\Domain\Criteria\UsersFacebookCriteriaInterface;
 use PHPMentors\DomainKata\Entity\EntityInterface;
@@ -78,7 +79,7 @@ class FindUserFacebookSpecification implements SpecificationInterface, CriteriaB
         $user->setUpdatedAt(new \DateTime($result['user.updated_at']));
         $user->setCreatedAt(new \DateTime($result['user.created_at']));
         
-        $facebook = new UserFacebook($user, $result['facebook_id']);
+        $facebook = new UserFacebook($user, new FacebookId($result['facebook_id']));
         $facebook->setToken($result['token']);
         $facebook->setUpdatedAt(new \DateTime($result['updated_at']));
         $facebook->setCreatedAt(new \DateTime($result['created_at']));
