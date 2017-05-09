@@ -9,7 +9,7 @@ use App\Domain\Entity\{
 use App\Domain\Exception\NotFoundResourceException;
 use App\Domain\InOut\{GoogleAttribute};
 use App\Domain\UseCase\Authentication\{
-    FindUserEmail, FindUserGoogle, RegistrationToUser, RegistrationToUserGoogle
+    FindUserEmail, FindUserGoogle, RegistrationToUser, RegistrationToUserGoogle, UpdateUserGoogle
 };
 use App\Domain\ValueObject\GoogleId;
 use App\Domain\ValueObject\UserId;
@@ -36,24 +36,30 @@ class UserGoogleRegistrationService implements ServiceInterface
     /** @var RegistrationToUserGoogle */
     private $googleRegistration;
     
+    /** @var UpdateUserGoogle */
+    private $updateUserGoogle;
+    
     /**
      * UserGoogleRegistrationService constructor.
      * @param FindUserEmail            $findUserEmail
      * @param RegistrationToUser       $registrationToUser
      * @param FindUserGoogle           $findUserGoogle
      * @param RegistrationToUserGoogle $registrationToUserGoogle
+     * @param UpdateUserGoogle         $updateUserGoogle
      */
     public function __construct(
         FindUserEmail            $findUserEmail,
         RegistrationToUser       $registrationToUser,
         FindUserGoogle           $findUserGoogle,
-        RegistrationToUserGoogle $registrationToUserGoogle
+        RegistrationToUserGoogle $registrationToUserGoogle,
+        UpdateUserGoogle         $updateUserGoogle
     )
     {
         $this->findUserEmail      = $findUserEmail;
         $this->userRegistration   = $registrationToUser;
         $this->findUserGoogle     = $findUserGoogle;
         $this->googleRegistration = $registrationToUserGoogle;
+        $this->updateUserGoogle   = $updateUserGoogle;
     }
     
     /**
@@ -103,6 +109,7 @@ class UserGoogleRegistrationService implements ServiceInterface
         try {
             $entity = $this->findUserGoogle->run($newGoogle);
             $entity->setToken($attribute->token);
+            $this->updateUserGoogle->run($entity);
         } catch (NotFoundResourceException $e) {
             // Emailで検索
             $newEmail = new UserEmail(

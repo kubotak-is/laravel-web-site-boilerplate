@@ -8,7 +8,7 @@ use App\Domain\Entity\{
 };
 use App\Domain\InOut\{TwitterAttribute};
 use App\Domain\UseCase\Authentication\{
-    FindUserTwitter, RegistrationToUser, RegistrationToUserTwitter
+    FindUserTwitter, RegistrationToUser, RegistrationToUserTwitter, UpdateUserTwitter
 };
 use App\Domain\ValueObject\TwitterId;
 use App\Domain\ValueObject\UserId;
@@ -31,21 +31,27 @@ class UserTwitterRegistrationService implements ServiceInterface
     /** @var RegistrationToUserTwitter */
     private $twitterRegistration;
     
+    /** @var UpdateUserTwitter */
+    private $updateUserTwitter;
+    
     /**
      * UserTwitterRegistrationService constructor.
      * @param RegistrationToUser        $registrationToUser
      * @param FindUserTwitter           $findUserTwitter
      * @param RegistrationToUserTwitter $registrationToUserTwitter
+     * @param UpdateUserTwitter         $updateUserTwitter
      */
     public function __construct(
         RegistrationToUser        $registrationToUser,
         FindUserTwitter           $findUserTwitter,
-        RegistrationToUserTwitter $registrationToUserTwitter
+        RegistrationToUserTwitter $registrationToUserTwitter,
+        UpdateUserTwitter         $updateUserTwitter
     )
     {
         $this->userRegistration    = $registrationToUser;
         $this->findUserTwitter     = $findUserTwitter;
         $this->twitterRegistration = $registrationToUserTwitter;
+        $this->updateUserTwitter   = $updateUserTwitter;
     }
     
     /**
@@ -93,6 +99,10 @@ class UserTwitterRegistrationService implements ServiceInterface
             new User(new UserId),
             new TwitterId($attribute->id)
         );
-        return $this->findUserTwitter->run($newTwitter);
+        $entity = $this->findUserTwitter->run($newTwitter);
+        $entity->setToken($attribute->token);
+        $entity->setTokenSecret($attribute->tokenSecret);
+        $this->updateUserTwitter->run($entity);
+        return $entity;
     }
 }

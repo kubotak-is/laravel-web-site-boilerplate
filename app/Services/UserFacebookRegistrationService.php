@@ -9,7 +9,7 @@ use App\Domain\Entity\{
 use App\Domain\Exception\NotFoundResourceException;
 use App\Domain\InOut\{FacebookAttribute};
 use App\Domain\UseCase\Authentication\{
-    FindUserEmail, FindUserFacebook, RegistrationToUser, RegistrationToUserFacebook
+    FindUserEmail, FindUserFacebook, RegistrationToUser, RegistrationToUserFacebook, UpdateUserFacebook
 };
 use App\Domain\ValueObject\FacebookId;
 use App\Domain\ValueObject\UserId;
@@ -36,24 +36,30 @@ class UserFacebookRegistrationService implements ServiceInterface
     /** @var FindUserFacebook */
     private $facebookRegistration;
     
+    /** @var UpdateUserFacebook */
+    private $updateUserFacebook;
+    
     /**
      * UserFacebookRegistrationService constructor.
      * @param FindUserEmail              $findUserEmail
      * @param RegistrationToUser         $registrationToUser
      * @param FindUserFacebook           $findUserFacebook
      * @param RegistrationToUserFacebook $registrationToUserFacebook
+     * @param UpdateUserFacebook         $updateUserFacebook
      */
     public function __construct(
         FindUserEmail              $findUserEmail,
         RegistrationToUser         $registrationToUser,
         FindUserFacebook           $findUserFacebook,
-        RegistrationToUserFacebook $registrationToUserFacebook
+        RegistrationToUserFacebook $registrationToUserFacebook,
+        UpdateUserFacebook         $updateUserFacebook
     )
     {
         $this->findUserEmail        = $findUserEmail;
         $this->userRegistration     = $registrationToUser;
         $this->findUserFacebook     = $findUserFacebook;
         $this->facebookRegistration = $registrationToUserFacebook;
+        $this->updateUserFacebook   = $updateUserFacebook;
     }
     
     /**
@@ -103,6 +109,7 @@ class UserFacebookRegistrationService implements ServiceInterface
         try {
             $entity = $this->findUserFacebook->run($newFacebook);
             $entity->setToken($attribute->token);
+            $this->updateUserFacebook->run($entity);
         } catch (NotFoundResourceException $e) {
             // Emailで検索
             $newEmail = new UserEmail(

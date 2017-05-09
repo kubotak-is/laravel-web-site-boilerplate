@@ -43,4 +43,13 @@ class UsersGoogleRepository
     {
         return $this->specification->find($entity);
     }
+    
+    /**
+     * @param UserGoogle $entity
+     * @return mixed
+     */
+    public function update(UserGoogle $entity)
+    {
+        return $this->specification->update($entity);
+    }
 }

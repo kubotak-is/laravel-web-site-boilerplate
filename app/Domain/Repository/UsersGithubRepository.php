@@ -43,4 +43,13 @@ class UsersGithubRepository
     {
         return $this->specification->find($entity);
     }
+    
+    /**
+     * @param UserGithub $entity
+     * @return mixed
+     */
+    public function update(UserGithub $entity)
+    {
+        return $this->specification->update($entity);
+    }
 }

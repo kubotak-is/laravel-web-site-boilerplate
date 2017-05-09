@@ -43,4 +43,14 @@ class UsersTwitterRepository
     {
         return $this->specification->find($entity);
     }
+    
+    /**
+     * @param UserTwitter $entity
+     * @return mixed
+     */
+    public function update(UserTwitter $entity)
+    {
+        return $this->specification->update($entity);
+    
+    }
 }

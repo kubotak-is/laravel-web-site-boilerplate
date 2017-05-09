@@ -43,4 +43,13 @@ class UsersFacebookRepository
     {
         return $this->specification->find($entity);
     }
+    
+    /**
+     * @param UserFacebook $entity
+     * @return mixed
+     */
+    public function update(UserFacebook $entity)
+    {
+        return $this->specification->update($entity);
+    }
 }

@@ -11,7 +11,7 @@ use App\Domain\InOut\{
     GithubAttribute
 };
 use App\Domain\UseCase\Authentication\{
-    FindUserEmail, FindUserGithub, RegistrationToUser, RegistrationToUserGithub
+    FindUserEmail, FindUserGithub, RegistrationToUser, RegistrationToUserGithub, UpdateUserGithub
 };
 use App\Domain\ValueObject\GithubId;
 use App\Domain\ValueObject\UserId;
@@ -38,24 +38,30 @@ class UserGithubRegistrationService implements ServiceInterface
     /** @var RegistrationToUser */
     private $githubRegistration;
     
+    /** @var UpdateUserGithub */
+    private $updateUserGithub;
+    
     /**
      * UserGithubRegistrationService constructor.
      * @param FindUserEmail            $findUserEmail
      * @param RegistrationToUser       $registrationToUser
      * @param FindUserGithub           $findUserGithub
      * @param RegistrationToUserGithub $registrationToUserGithub
+     * @param UpdateUserGithub         $updateUserGithub
      */
     public function __construct(
         FindUserEmail            $findUserEmail,
         RegistrationToUser       $registrationToUser,
         FindUserGithub           $findUserGithub,
-        RegistrationToUserGithub $registrationToUserGithub
+        RegistrationToUserGithub $registrationToUserGithub,
+        UpdateUserGithub         $updateUserGithub
     )
     {
         $this->findUserEmail      = $findUserEmail;
         $this->userRegistration   = $registrationToUser;
         $this->findUserGithub     = $findUserGithub;
         $this->githubRegistration = $registrationToUserGithub;
+        $this->updateUserGithub   = $updateUserGithub;
     }
     
     /**
@@ -107,6 +113,7 @@ class UserGithubRegistrationService implements ServiceInterface
             $entity = $this->findUserGithub->run($newGithub);
             $entity->setToken($attribute->token);
             $entity->setNickname($attribute->nickname);
+            $this->updateUserGithub->run($entity);
         } catch (NotFoundResourceException $e) {
             // Emailで検索
             $newEmail = new UserEmail(
