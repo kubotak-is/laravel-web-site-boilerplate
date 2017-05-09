@@ -3,6 +3,7 @@
 /public/hot
 /storage/
 /vendor
+/tests/logs
 /.idea
 Homestead.json
 Homestead.yaml

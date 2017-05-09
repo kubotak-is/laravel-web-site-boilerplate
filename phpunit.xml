@@ -20,6 +20,13 @@
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">./app</directory>
+            <exclude>
+                <directory>./app/Authentication</directory>
+                <directory>./app/Exceptions</directory>
+                <directory>./app/Providers</directory>
+                <directory>./app/Domain/Exception</directory>
+                <directory>./app/Aspect/Modules</directory>
+            </exclude>
         </whitelist>
     </filter>
     <logging>
@@ -28,8 +35,12 @@
     </logging>
     <php>
         <env name="APP_ENV" value="testing"/>
+        <env name="APP_DEBUG" value="true"/>
+        <env name="BROADCAST_DRIVER" value="log"/>
         <env name="CACHE_DRIVER" value="array"/>
         <env name="SESSION_DRIVER" value="array"/>
         <env name="QUEUE_DRIVER" value="sync"/>
+        <env name="ASPECT_DRIVER" value="none"/>
+        <env name="ASPECT_CACHEABLE" value="false"/>
     </php>
 </phpunit>
