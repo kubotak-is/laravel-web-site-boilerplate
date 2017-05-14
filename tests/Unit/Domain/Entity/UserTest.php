@@ -7,6 +7,7 @@ use Tests\TestCase;
 use App\Domain\Entity\{AggregateRoot, User};
 use App\Domain\ValueObject\UserId;
 use PHPMentors\DomainKata\Entity\EntityInterface;
+use ValueObjects\Identity\UUID;
 
 /**
  * Class UserTest
@@ -19,9 +20,15 @@ class UserTest extends TestCase
      */
     private $entity;
     
+    /**
+     * @var string
+     */
+    private $uuid;
+    
     public function setUp()
     {
-        $this->entity = new User(new UserId);
+        $this->uuid   = UUID::generateAsString();
+        $this->entity = new User(new UserId($this->uuid));
     }
     
     public function testInstance()
@@ -32,19 +39,25 @@ class UserTest extends TestCase
     
     public function testValues()
     {
-        $date = new \DateTime('2000-01-01 00:00:00');
         $this->entity->setName('name');
         $this->entity->setFlag(true, false);
+        
+        
+        $this->assertSame($this->entity->getUserId(), $this->uuid);
+        $this->assertSame($this->entity->getName(), 'name');
+        $this->assertTrue(is_int($this->entity->getLastLoginTime()));
+        $this->assertTrue(is_int($this->entity->getUpdatedAt()));
+        $this->assertTrue(is_int($this->entity->getCreatedAt()));
+        $this->assertTrue($this->entity->isFrozen());
+        $this->assertFalse($this->entity->isDeleted());
+        
+        
+        $date = new \DateTime('2000-01-01 00:00:00');
         $this->entity->setLastLoginTime($date);
         $this->entity->setUpdatedAt($date);
         $this->entity->setCreatedAt($date);
-        
-        $this->assertTrue(is_string($this->entity->getUserId()));
-        $this->assertSame($this->entity->getName(), 'name');
         $this->assertSame($this->entity->getLastLoginTime(), $date->getTimestamp());
         $this->assertSame($this->entity->getUpdatedAt(), $date->getTimestamp());
         $this->assertSame($this->entity->getCreatedAt(), $date->getTimestamp());
-        $this->assertTrue($this->entity->isFrozen());
-        $this->assertFalse($this->entity->isDeleted());
     }
 }

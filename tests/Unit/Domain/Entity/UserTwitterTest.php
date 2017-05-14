@@ -36,18 +36,22 @@ class UserTwitterTest extends TestCase
     
     public function testValues()
     {
-        $date = new \DateTime('2000-01-01 00:00:00');
         $this->entity->setNickname('nickname');
         $this->entity->setToken('token');
         $this->entity->setTokenSecret('token_secret');
-        $this->entity->setUpdatedAt($date);
-        $this->entity->setCreatedAt($date);
     
         $this->assertTrue($this->entity->getUser() instanceof User);
         $this->assertSame($this->entity->getTwitterId(), 'twitter');
         $this->assertSame($this->entity->getNickname(), 'nickname');
         $this->assertSame($this->entity->getToken(), 'token');
         $this->assertSame($this->entity->getTokenSecret(), 'token_secret');
+        $this->assertTrue(is_int($this->entity->getUpdatedAt()));
+        $this->assertTrue(is_int($this->entity->getCreatedAt()));
+    
+    
+        $date = new \DateTime('2000-01-01 00:00:00');
+        $this->entity->setUpdatedAt($date);
+        $this->entity->setCreatedAt($date);
         $this->assertSame($this->entity->getUpdatedAt(), $date->getTimestamp());
         $this->assertSame($this->entity->getCreatedAt(), $date->getTimestamp());
     }
