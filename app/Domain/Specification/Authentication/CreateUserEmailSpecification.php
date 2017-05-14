@@ -37,18 +37,6 @@ class CreateUserEmailSpecification implements SpecificationInterface, CriteriaBu
      */
     public function isSatisfiedBy(EntityInterface $entity): bool
     {
-        if (empty($entity->getEmail())) {
-            return false;
-        }
-        
-        if (empty($entity->getPassword())) {
-            return false;
-        }
-        
-        if (!is_string($entity->getUser()->getUserId())) {
-            return false;
-        }
-        
         return true;
     }
     

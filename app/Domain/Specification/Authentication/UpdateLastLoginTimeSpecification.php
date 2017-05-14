@@ -37,10 +37,14 @@ class UpdateLastLoginTimeSpecification implements SpecificationInterface, Criter
      */
     public function isSatisfiedBy(EntityInterface $entity): bool
     {
-        if (empty($entity->getUserId())) {
+        if ($entity->isDeleted()) {
             return false;
         }
+    
+        if ($entity->isFrozen()) {
+            return false;
         
+        }
         return true;
     }
     

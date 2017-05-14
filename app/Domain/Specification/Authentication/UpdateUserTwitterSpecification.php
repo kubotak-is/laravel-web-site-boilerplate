@@ -37,22 +37,14 @@ class UpdateUserTwitterSpecification implements SpecificationInterface, Criteria
      */
     public function isSatisfiedBy(EntityInterface $entity): bool
     {
-        if (empty($entity->getTwitterId())) {
-            return false;
-        }
-        
-        if (empty($entity->getToken())) {
+        if ($entity->getUser()->isDeleted()) {
             return false;
         }
     
-        if (empty($entity->getTokenSecret())) {
+        if ($entity->getUser()->isFrozen()) {
             return false;
-        }
         
-        if (!is_string($entity->getUser()->getUserId())) {
-            return false;
         }
-        
         return true;
     }
     
@@ -67,6 +59,7 @@ class UpdateUserTwitterSpecification implements SpecificationInterface, Criteria
     /**
      * @param EntityInterface|UserTwitter $entity
      * @return bool
+     * @throws \ErrorException
      */
     public function update(EntityInterface $entity): bool
     {
@@ -75,7 +68,7 @@ class UpdateUserTwitterSpecification implements SpecificationInterface, Criteria
         }
     
         if (!$this->isSatisfiedBy($entity)) {
-            throw new \RuntimeException("Not Satisfied UserTwitter");
+            throw new \ErrorException("Not Satisfied UserTwitter");
         }
         
         $attribute = [

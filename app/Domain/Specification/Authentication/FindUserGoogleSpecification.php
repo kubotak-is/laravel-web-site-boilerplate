@@ -6,6 +6,7 @@ namespace App\Domain\Specification\Authentication;
 use App\Domain\Criteria\UsersGoogleCriteriaInterface;
 use App\Domain\Entity\User;
 use App\Domain\Entity\UserGoogle;
+use App\Domain\Exception\Authentication\UserFrozenException;
 use App\Domain\Exception\NotFoundResourceException;
 use App\Domain\ValueObject\GoogleId;
 use App\Domain\ValueObject\UserId;
@@ -40,10 +41,9 @@ class FindUserGoogleSpecification implements SpecificationInterface, CriteriaBui
      */
     public function isSatisfiedBy(EntityInterface $entity): bool
     {
-        if (empty($entity->getToken())) {
+        if ($entity->getUser()->isFrozen()) {
             return false;
         }
-        
         return true;
     }
     
@@ -72,7 +72,7 @@ class FindUserGoogleSpecification implements SpecificationInterface, CriteriaBui
             throw new NotFoundResourceException("Not Found UserGoogle");
         }
         
-        $user  = new User(new UserId($result['user_id']));
+        $user = new User(new UserId($result['user_id']));
         $user->setName($result['name']);
         $user->setFlag((bool)$result['frozen'], false);
         $user->setLastLoginTime(new \DateTime($result['last_login_time']));
@@ -83,6 +83,10 @@ class FindUserGoogleSpecification implements SpecificationInterface, CriteriaBui
         $google->setToken($result['token']);
         $google->setUpdatedAt(new \DateTime($result['updated_at']));
         $google->setCreatedAt(new \DateTime($result['created_at']));
+    
+        if (!$this->isSatisfiedBy($google)) {
+            throw new UserFrozenException();
+        }
         
         return $google;
     }

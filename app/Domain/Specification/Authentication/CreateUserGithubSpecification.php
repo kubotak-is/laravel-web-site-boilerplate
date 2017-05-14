@@ -38,18 +38,6 @@ class CreateUserGithubSpecification implements SpecificationInterface, CriteriaB
      */
     public function isSatisfiedBy(EntityInterface $entity): bool
     {
-        if (empty($entity->getGithubId())) {
-            return false;
-        }
-        
-        if (empty($entity->getToken())) {
-            return false;
-        }
-        
-        if (!is_string($entity->getUser()->getUserId())) {
-            return false;
-        }
-        
         return true;
     }
     

@@ -37,18 +37,14 @@ class UpdateUserGithubSpecification implements SpecificationInterface, CriteriaB
      */
     public function isSatisfiedBy(EntityInterface $entity): bool
     {
-        if (empty($entity->getGithubId())) {
+        if ($entity->getUser()->isDeleted()) {
             return false;
         }
-        
-        if (empty($entity->getToken())) {
+    
+        if ($entity->getUser()->isFrozen()) {
             return false;
-        }
         
-        if (!is_string($entity->getUser()->getUserId())) {
-            return false;
         }
-        
         return true;
     }
     
@@ -62,7 +58,9 @@ class UpdateUserGithubSpecification implements SpecificationInterface, CriteriaB
     
     /**
      * @param EntityInterface|UserGithub $entity
+     * @param EntityInterface $entity
      * @return bool
+     * @throws \ErrorException
      */
     public function update(EntityInterface $entity): bool
     {
@@ -71,7 +69,7 @@ class UpdateUserGithubSpecification implements SpecificationInterface, CriteriaB
         }
         
         if (!$this->isSatisfiedBy($entity)) {
-            throw new \RuntimeException("Not Satisfied UserGithub");
+            throw new \ErrorException("Not Satisfied UserGithub");
         }
         
         $attribute = [

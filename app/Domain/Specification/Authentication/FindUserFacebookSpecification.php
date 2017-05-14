@@ -5,6 +5,7 @@ namespace App\Domain\Specification\Authentication;
 
 use App\Domain\Entity\User;
 use App\Domain\Entity\UserFacebook;
+use App\Domain\Exception\Authentication\UserFrozenException;
 use App\Domain\Exception\NotFoundResourceException;
 use App\Domain\ValueObject\FacebookId;
 use App\Domain\ValueObject\UserId;
@@ -40,10 +41,10 @@ class FindUserFacebookSpecification implements SpecificationInterface, CriteriaB
      */
     public function isSatisfiedBy(EntityInterface $entity): bool
     {
-        if (empty($entity->getToken())) {
+        if ($entity->getUser()->isFrozen()) {
             return false;
-        }
         
+        }
         return true;
     }
     
@@ -72,7 +73,7 @@ class FindUserFacebookSpecification implements SpecificationInterface, CriteriaB
             throw new NotFoundResourceException("Not Found UserFacebook");
         }
         
-        $user  = new User(new UserId($result['user_id']));
+        $user = new User(new UserId($result['user_id']));
         $user->setName($result['name']);
         $user->setFlag((bool)$result['frozen'], false);
         $user->setLastLoginTime(new \DateTime($result['last_login_time']));
@@ -83,6 +84,10 @@ class FindUserFacebookSpecification implements SpecificationInterface, CriteriaB
         $facebook->setToken($result['token']);
         $facebook->setUpdatedAt(new \DateTime($result['updated_at']));
         $facebook->setCreatedAt(new \DateTime($result['created_at']));
+    
+        if (!$this->isSatisfiedBy($facebook)) {
+            throw new UserFrozenException();
+        }
         
         return $facebook;
     }

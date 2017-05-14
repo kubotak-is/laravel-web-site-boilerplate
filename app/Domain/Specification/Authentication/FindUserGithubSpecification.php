@@ -6,6 +6,7 @@ namespace App\Domain\Specification\Authentication;
 use App\Domain\Criteria\UsersGithubCriteriaInterface;
 use App\Domain\Entity\User;
 use App\Domain\Entity\UserGithub;
+use App\Domain\Exception\Authentication\UserFrozenException;
 use App\Domain\Exception\NotFoundResourceException;
 use App\Domain\ValueObject\GithubId;
 use App\Domain\ValueObject\UserId;
@@ -40,10 +41,9 @@ class FindUserGithubSpecification implements SpecificationInterface, CriteriaBui
      */
     public function isSatisfiedBy(EntityInterface $entity): bool
     {
-        if (empty($entity->getToken())) {
+        if ($entity->getUser()->isFrozen()) {
             return false;
         }
-        
         return true;
     }
     
@@ -72,7 +72,7 @@ class FindUserGithubSpecification implements SpecificationInterface, CriteriaBui
             throw new NotFoundResourceException("Not Found UserGithub");
         }
         
-        $user  = new User(new UserId($result['user_id']));
+        $user = new User(new UserId($result['user_id']));
         $user->setName($result['name']);
         $user->setFlag((bool)$result['frozen'], false);
         $user->setLastLoginTime(new \DateTime($result['last_login_time']));
@@ -84,6 +84,10 @@ class FindUserGithubSpecification implements SpecificationInterface, CriteriaBui
         $github->setNickname($result['nickname']);
         $github->setUpdatedAt(new \DateTime($result['updated_at']));
         $github->setCreatedAt(new \DateTime($result['created_at']));
+    
+        if (!$this->isSatisfiedBy($github)) {
+            throw new UserFrozenException();
+        }
         
         return $github;
     }

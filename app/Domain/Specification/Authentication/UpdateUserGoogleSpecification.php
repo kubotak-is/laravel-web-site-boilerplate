@@ -37,18 +37,14 @@ class UpdateUserGoogleSpecification implements SpecificationInterface, CriteriaB
      */
     public function isSatisfiedBy(EntityInterface $entity): bool
     {
-        if (empty($entity->getGoogleId())) {
+        if ($entity->getUser()->isDeleted()) {
             return false;
         }
-        
-        if (empty($entity->getToken())) {
+    
+        if ($entity->getUser()->isFrozen()) {
             return false;
-        }
         
-        if (!is_string($entity->getUser()->getUserId())) {
-            return false;
         }
-        
         return true;
     }
     
@@ -63,6 +59,7 @@ class UpdateUserGoogleSpecification implements SpecificationInterface, CriteriaB
     /**
      * @param EntityInterface|UserGoogle $entity
      * @return bool
+     * @throws \ErrorException
      */
     public function update(EntityInterface $entity): bool
     {
@@ -71,7 +68,7 @@ class UpdateUserGoogleSpecification implements SpecificationInterface, CriteriaB
         }
     
         if (!$this->isSatisfiedBy($entity)) {
-            throw new \RuntimeException("Not Satisfied UserGoogle");
+            throw new \ErrorException("Not Satisfied UserGoogle");
         }
         
         $attribute = [

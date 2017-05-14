@@ -5,6 +5,7 @@ namespace App\Domain\Specification\Authentication;
 
 use App\Domain\Entity\User;
 use App\Domain\Entity\UserEmail;
+use App\Domain\Exception\Authentication\UserFrozenException;
 use App\Domain\Exception\NotFoundResourceException;
 use App\Domain\ValueObject\UserId;
 use App\Domain\Criteria\UsersMailCriteriaInterface;
@@ -40,10 +41,10 @@ class FindUserEmailSpecification implements SpecificationInterface, CriteriaBuil
      */
     public function isSatisfiedBy(EntityInterface $entity): bool
     {
-        if (empty($entity->getEmail())) {
+        if ($entity->getUser()->isFrozen()) {
             return false;
-        }
         
+        }
         return true;
     }
     
@@ -71,7 +72,7 @@ class FindUserEmailSpecification implements SpecificationInterface, CriteriaBuil
             throw new NotFoundResourceException("Not Found UserEmail");
         }
         
-        $user  = new User(new UserId($result['user_id']));
+        $user = new User(new UserId($result['user_id']));
         $user->setName($result['name']);
         $user->setFlag((bool)$result['frozen'], false);
         $user->setLastLoginTime(new \DateTime($result['last_login_time']));
@@ -82,6 +83,10 @@ class FindUserEmailSpecification implements SpecificationInterface, CriteriaBuil
         $email->setPassword($result['password']);
         $email->setUpdatedAt(new \DateTime($result['updated_at']));
         $email->setCreatedAt(new \DateTime($result['created_at']));
+    
+        if (!$this->isSatisfiedBy($email)) {
+            throw new UserFrozenException();
+        }
         
         return $email;
     }

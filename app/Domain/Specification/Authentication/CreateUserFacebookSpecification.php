@@ -37,18 +37,6 @@ class CreateUserFacebookSpecification implements SpecificationInterface, Criteri
      */
     public function isSatisfiedBy(EntityInterface $entity): bool
     {
-        if (empty($entity->getFacebookId())) {
-            return false;
-        }
-        
-        if (empty($entity->getToken())) {
-            return false;
-        }
-        
-        if (!is_string($entity->getUser()->getUserId())) {
-            return false;
-        }
-        
         return true;
     }
     

@@ -41,18 +41,6 @@ class AuthenticationUserEmailSpecification implements SpecificationInterface, Cr
      */
     public function isSatisfiedBy(EntityInterface $entity): bool
     {
-        if (empty($entity->getEmail())) {
-            return false;
-        }
-        
-        if (empty($entity->getPassword())) {
-            return false;
-        }
-        
-        if (!is_string($entity->getUser()->getUserId())) {
-            return false;
-        }
-        
         return true;
     }
     
@@ -67,7 +55,8 @@ class AuthenticationUserEmailSpecification implements SpecificationInterface, Cr
     /**
      * @param EntityInterface|UserEmail $entity
      * @return UserEmail
-     * @throws \ErrorException
+     * @throws NotFoundResourceException
+     * @throws ValidPasswordException
      */
     public function find(EntityInterface $entity): UserEmail
     {
@@ -78,7 +67,7 @@ class AuthenticationUserEmailSpecification implements SpecificationInterface, Cr
         $result = $this->criteria->findByEmail($entity->getEmail());
         
         if (empty($result)) {
-            throw new NotFoundResourceException("Not fount email");
+            throw new NotFoundResourceException("Not Fount Email");
         }
         
         // check password

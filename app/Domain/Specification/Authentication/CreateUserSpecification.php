@@ -37,19 +37,6 @@ class CreateUserSpecification implements SpecificationInterface, CriteriaBuilder
      */
     public function isSatisfiedBy(EntityInterface $entity): bool
     {
-        if ($entity->isDeleted()) {
-            return false;
-        }
-    
-        if ($entity->isFrozen()) {
-            return false;
-        
-        }
-        
-        if (!is_string($entity->getUserId())) {
-            return false;
-        }
-        
         return true;
     }
     

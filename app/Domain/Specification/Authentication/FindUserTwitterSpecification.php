@@ -5,6 +5,7 @@ namespace App\Domain\Specification\Authentication;
 
 use App\Domain\Entity\User;
 use App\Domain\Entity\UserTwitter;
+use App\Domain\Exception\Authentication\UserFrozenException;
 use App\Domain\Exception\NotFoundResourceException;
 use App\Domain\ValueObject\TwitterId;
 use App\Domain\ValueObject\UserId;
@@ -40,14 +41,9 @@ class FindUserTwitterSpecification implements SpecificationInterface, CriteriaBu
      */
     public function isSatisfiedBy(EntityInterface $entity): bool
     {
-        if (empty($entity->getToken())) {
+        if ($entity->getUser()->isFrozen()) {
             return false;
         }
-        
-        if (empty($entity->getTokenSecret())) {
-            return false;
-        }
-        
         return true;
     }
     
@@ -76,7 +72,7 @@ class FindUserTwitterSpecification implements SpecificationInterface, CriteriaBu
             throw new NotFoundResourceException("Not Found UserTwitter");
         }
         
-        $user  = new User(new UserId($result['user_id']));
+        $user = new User(new UserId($result['user_id']));
         $user->setName($result['name']);
         $user->setFlag((bool)$result['frozen'], false);
         $user->setLastLoginTime(new \DateTime($result['last_login_time']));
@@ -89,6 +85,10 @@ class FindUserTwitterSpecification implements SpecificationInterface, CriteriaBu
         $twitter->setTokenSecret($result['token_secret']);
         $twitter->setUpdatedAt(new \DateTime($result['updated_at']));
         $twitter->setCreatedAt(new \DateTime($result['created_at']));
+    
+        if (!$this->isSatisfiedBy($twitter)) {
+            throw new UserFrozenException();
+        }
         
         return $twitter;
     }

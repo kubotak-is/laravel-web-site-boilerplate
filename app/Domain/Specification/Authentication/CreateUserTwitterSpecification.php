@@ -37,22 +37,6 @@ class CreateUserTwitterSpecification implements SpecificationInterface, Criteria
      */
     public function isSatisfiedBy(EntityInterface $entity): bool
     {
-        if (empty($entity->getTwitterId())) {
-            return false;
-        }
-        
-        if (empty($entity->getToken())) {
-            return false;
-        }
-    
-        if (empty($entity->getTokenSecret())) {
-            return false;
-        }
-        
-        if (!is_string($entity->getUser()->getUserId())) {
-            return false;
-        }
-        
         return true;
     }
     
