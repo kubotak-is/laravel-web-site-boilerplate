@@ -53,7 +53,7 @@ class UpdateUserTwitterSpecificationTest extends TestCase
         $this->assertFalse($this->specification->isSatisfiedBy($twitter2));
     
         $user3 = new User(new UserId);
-        $user3->setFlag(false, true);
+        $user3->setFlag(true, false);
         $twitter3 = new UserTwitter($user3, new TwitterId("id"));
         $this->assertFalse($this->specification->isSatisfiedBy($twitter3));
     }

@@ -57,7 +57,7 @@ class UpdateUserGoogleSpecificationTest extends TestCase
         $this->assertFalse($this->specification->isSatisfiedBy($google2));
     
         $user3 = new User(new UserId);
-        $user3->setFlag(false, true);
+        $user3->setFlag(true, false);
         $google3 = new UserGoogle($user3, new GoogleId("id"));
         $this->assertFalse($this->specification->isSatisfiedBy($google3));
     }

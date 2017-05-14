@@ -57,7 +57,7 @@ class UpdateUserGithubSpecificationTest extends TestCase
         $this->assertFalse($this->specification->isSatisfiedBy($github2));
     
         $user3 = new User(new UserId);
-        $user3->setFlag(false, true);
+        $user3->setFlag(true, false);
         $github3 = new UserGithub($user3, new GithubId("id"));
         $this->assertFalse($this->specification->isSatisfiedBy($github3));
     }

@@ -53,7 +53,7 @@ class UpdateUserFacebookSpecificationTest extends TestCase
         $this->assertFalse($this->specification->isSatisfiedBy($facebook2));
     
         $user3 = new User(new UserId);
-        $user3->setFlag(false, true);
+        $user3->setFlag(true, false);
         $facebook3 = new UserFacebook($user3, new FacebookId("id"));
         $this->assertFalse($this->specification->isSatisfiedBy($facebook3));
     }

@@ -51,7 +51,7 @@ class UpdateLastLoginTimeSpecificationTest extends TestCase
         $entity->setFlag(true, true);
         $this->assertFalse($this->specification->isSatisfiedBy($entity));
         
-        $entity->setFlag(false, true);
+        $entity->setFlag(true, false);
         $this->assertFalse($this->specification->isSatisfiedBy($entity));
     }
     
