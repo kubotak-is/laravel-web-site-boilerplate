@@ -1,0 +1,40 @@
+{
+  "parser": "babel-eslint",
+  "extends": [
+    "eslint:recommended",
+    "plugin:inferno/all",
+    "plugin:flowtype/recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings"
+  ],
+  "plugins": [
+    "inferno",
+    "flowtype",
+    "import"
+  ],
+  "settings": {
+    "import/resolver": {
+      "node": {"paths": ["resources/assets/js"]}
+    }
+  },
+  "parserOptions": {
+    "sourceType": "module",
+    "allowImportExportEverywhere": false,
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "env": {"browser": true},
+  "globals": {},
+  "rules": {
+    "inferno/jsx-filename-extension": ["error", { "extensions": [".js", ".jsx"] }],
+    "inferno/jsx-indent": ["error", 2],
+    "inferno/jsx-indent-props": ["error", 2],
+    "inferno/jsx-sort-props": "off",
+    "inferno/jsx-no-bind": ["error", {
+      "ignoreRefs": true,
+      "allowArrowFunctions": true,
+      "allowBind": false
+    }]
+  }
+}

@@ -67,8 +67,7 @@
     <body>
         <div class="flex-center position-ref full-height">
             <div class="content">
-                <div class="title m-b-md">
-                    Laravel
+                <div class="title m-b-md" id="app">
                 </div>
 
                 <div class="links">
@@ -80,5 +79,8 @@
                 </div>
             </div>
         </div>
+        <script type="text/javascript" src="{{ asset_path('js/manifest.js') }}"></script>
+        <script type="text/javascript" src="{{ asset_path('js/vendor.js') }}"></script>
+        <script type="text/javascript" src="{{ asset_path('js/index.js') }}"></script>
     </body>
 </html>
