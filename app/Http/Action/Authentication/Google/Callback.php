@@ -7,7 +7,6 @@ use App\Domain\Exception\NotFoundResourceException;
 use App\Domain\InOut\GoogleAttribute;
 use App\Services\UserGoogleRegistrationService;
 use Illuminate\Auth\AuthManager;
-use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Application;
 use Laravel\Socialite\SocialiteManager;
@@ -41,11 +40,10 @@ class Callback extends Controller
     }
     
     /**
-     * @param Request                       $request
      * @param UserGoogleRegistrationService $service
      * @return RedirectResponse
      */
-    public function __invoke(Request $request, UserGoogleRegistrationService $service): RedirectResponse
+    public function __invoke(UserGoogleRegistrationService $service): RedirectResponse
     {
         $user = $this->socialite->user();
         $googleAttr = new GoogleAttribute;

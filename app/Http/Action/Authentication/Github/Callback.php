@@ -7,7 +7,6 @@ use App\Domain\Exception\NotFoundResourceException;
 use App\Domain\InOut\GithubAttribute;
 use App\Services\UserGithubRegistrationService;
 use Illuminate\Auth\AuthManager;
-use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Application;
 use Laravel\Socialite\SocialiteManager;
@@ -41,11 +40,10 @@ class Callback extends Controller
     }
     
     /**
-     * @param Request                       $request
      * @param UserGithubRegistrationService $service
      * @return RedirectResponse
      */
-    public function __invoke(Request $request, UserGithubRegistrationService $service): RedirectResponse
+    public function __invoke(UserGithubRegistrationService $service): RedirectResponse
     {
         $user = $this->socialite->user();
         $githubAttr = new GithubAttribute;

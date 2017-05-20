@@ -41,11 +41,10 @@ class Callback extends Controller
     }
     
     /**
-     * @param Request                        $request
      * @param UserTwitterRegistrationService $service
      * @return RedirectResponse
      */
-    public function __invoke(Request $request, UserTwitterRegistrationService $service): RedirectResponse
+    public function __invoke(UserTwitterRegistrationService $service): RedirectResponse
     {
         $user = $this->socialite->user();
         $twitterAttr = new TwitterAttribute();

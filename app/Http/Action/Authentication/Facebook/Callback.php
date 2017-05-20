@@ -7,7 +7,6 @@ use App\Domain\Exception\NotFoundResourceException;
 use App\Domain\InOut\FacebookAttribute;
 use App\Services\UserFacebookRegistrationService;
 use Illuminate\Auth\AuthManager;
-use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Application;
 use Laravel\Socialite\SocialiteManager;
@@ -41,11 +40,10 @@ class Callback extends Controller
     }
     
     /**
-     * @param Request                         $request
      * @param UserFacebookRegistrationService $service
      * @return RedirectResponse
      */
-    public function __invoke(Request $request, UserFacebookRegistrationService $service): RedirectResponse
+    public function __invoke(UserFacebookRegistrationService $service): RedirectResponse
     {
         $user = $this->socialite->user();
         $facebookAttr = new FacebookAttribute;
