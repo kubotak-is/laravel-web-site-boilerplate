@@ -119,5 +119,15 @@ return [
             resource_path('views/vendor/mail'),
         ],
     ],
+    
+    /*
+    |--------------------------------------------------------------------------
+    | MailGun Settings
+    |--------------------------------------------------------------------------
+    */
+    'mailgun' => [
+        'domain' => env('MAILGUN_DOMAIN', 'your-mailgun-domain'),
+        'secret' => env('MAILGUN_SECRET', 'your-mailgun-key'),
+    ],
 
 ];

@@ -61,7 +61,7 @@ class CreateUserEmailSpecification implements SpecificationInterface, CriteriaBu
         $attribute = [
             'user_id'    => $entity->getUser()->getUserId(),
             'email'      => $entity->getEmail(),
-            'password'   => password_hash($entity->getPassword(), PASSWORD_BCRYPT, []),
+            'password'   => $entity->getPassword(),
             'updated_at' =>
                 (new \DateTime)
                     ->setTimestamp($entity->getUpdatedAt())

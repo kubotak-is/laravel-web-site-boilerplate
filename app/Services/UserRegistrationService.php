@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\DataAccess\Cache\CacheInterface;
 use App\Domain\Entity\{
     User, UserEmail
 };
@@ -10,6 +11,7 @@ use App\Domain\UseCase\Authentication\{
     RegistrationToUserEmail, RegistrationToUser, AuthenticationToUserEmail
 };
 use App\Domain\ValueObject\UserId;
+use ValueObjects\Identity\UUID;
 use ValueObjects\Web\EmailAddress;
 use PHPMentors\DomainKata\Service\ServiceInterface;
 use Ytake\LaravelAspect\Annotation\{LogExceptions, Transactional};
@@ -21,6 +23,9 @@ use App\Aspect\Annotation\UpdateLastLoginTime;
  */
 class UserRegistrationService implements ServiceInterface
 {
+    /** @var CacheInterface */
+    private $cache;
+    
     /** @var RegistrationToUser */
     private $userRegistration;
     
@@ -37,11 +42,13 @@ class UserRegistrationService implements ServiceInterface
      * @param AuthenticationToUserEmail $authenticationToEmailUser
      */
     public function __construct(
+        CacheInterface            $cache,
         RegistrationToUser        $registrationToUser,
         RegistrationToUserEmail   $registrationToEmailUser,
         AuthenticationToUserEmail $authenticationToEmailUser
     )
     {
+        $this->cache                     = $cache;
         $this->userRegistration          = $registrationToUser;
         $this->userEmailRegistration     = $registrationToEmailUser;
         $this->authenticationToUserEmail = $authenticationToEmailUser;
@@ -85,5 +92,44 @@ class UserRegistrationService implements ServiceInterface
         $newEmail = new UserEmail($newUser, new EmailAddress($email));
         $newEmail->setPassword($password);
         return $this->authenticationToUserEmail->run($newEmail);
+    }
+    
+    /**
+     * @param string $name
+     * @param string $email
+     * @param string $password
+     * @return string
+     */
+    public function generateActivationCode(string $name, string $email, string $password): string
+    {
+        $activationCode = UUID::generateAsString();
+        
+        if ($this->cache->has($activationCode)) {
+            throw new \RuntimeException("{$activationCode} Key has Already Cached");
+        }
+        
+        // 24H
+        $this->cache->put($activationCode, [
+            $name,
+            $email,
+            $password,
+        ], 86400);
+        
+        return $activationCode;
+    }
+    
+    /**
+     * @param string $activationCode
+     * @return array[name, email, password]
+     */
+    public function decodeActivationCode(string $activationCode): array
+    {
+        if (!$this->cache->has($activationCode)) {
+            throw new \RuntimeException("{$activationCode} is Not Cached");
+        }
+        
+        $decoded = $this->cache->get($activationCode);
+        $this->cache->forget($activationCode);
+        return $decoded;
     }
 }

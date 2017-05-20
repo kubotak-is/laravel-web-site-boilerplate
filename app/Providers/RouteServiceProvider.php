@@ -70,6 +70,11 @@ class RouteServiceProvider extends ServiceProvider
                 'uses' => Email\PostSignUp::class,
             ]);
             
+            $router->get('/mail_activate/{activationCode}', [
+                'as'   => 'auth.get.activation',
+                'uses' => Email\GetActivate::class,
+            ]);
+            
             /**
              * Auth Github
              */
@@ -124,7 +129,7 @@ class RouteServiceProvider extends ServiceProvider
         });
     
         // 認証済
-        $router->group(['middleware' => ['web', 'auth']], function (Router $router) {
+        $router->group(['middleware' => ['web', 'auth.valid']], function (Router $router) {
             //
         });
     }

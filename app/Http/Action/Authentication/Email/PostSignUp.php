@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace App\Http\Action\Authentication\Email;
 
-use Illuminate\Auth\AuthManager;
+use Illuminate\View\View;
 use Illuminate\Routing\Controller;
 use App\Services\UserRegistrationService;
-use Symfony\Component\HttpFoundation\RedirectResponse;
+use App\Services\Notification\Mail\UserActivation;
 use App\Http\Request\Authentication\Email\PostSignUpRequest;
 
 /**
@@ -16,38 +16,32 @@ use App\Http\Request\Authentication\Email\PostSignUpRequest;
 class PostSignUp extends Controller
 {
     /**
-     * @var \Illuminate\Contracts\Auth\Guard|\Illuminate\Contracts\Auth\StatefulGuard
+     * @var UserActivation
      */
-    private $auth;
+    private $mailer;
     
     /**
      * PostSignUp constructor.
-     * @param AuthManager $authManager
+     * @param UserActivation $userActivation
      */
-    public function __construct(AuthManager $authManager)
+    public function __construct(UserActivation $userActivation)
     {
-        $this->auth = $authManager->guard('web');
+        $this->mailer = $userActivation;
     }
     
     /**
-     * @param PostSignUpRequest       $request
-     * @param UserRegistrationService $service
-     * @return RedirectResponse
-     * @throws \ErrorException
+     * @param PostSignUpRequest $request
+     * @return View
      */
-    public function __invoke(PostSignUpRequest $request, UserRegistrationService $service): RedirectResponse
+    public function __invoke(PostSignUpRequest $request, UserRegistrationService $service): View
     {
-        $name     = $request->get('name');
-        $email    = $request->get('email');
-        $password = $request->get('password');
-
-        $entity = $service->registerUserEmail($name, $email, $password);
+        $name     = (string) $request->get('name');
+        $email    = (string) $request->get('email');
+        $password = (string) password_hash($request->get('password'), PASSWORD_BCRYPT, []);
         
-        if (!$this->auth->loginUsingId($entity->getUser()->getUserId())) {
-            throw new \ErrorException("Failed Auth Email");
-        }
-    
-        // auth success
-        return redirect(route('index'));
+        $activationCode = $service->generateActivationCode($name, $email, $password);
+        $this->mailer->run($name, $email, $activationCode);
+        
+        return view('authentication.send_activate')->with(compact('email'));
     }
 }
