@@ -10,6 +10,7 @@ use App\Domain\Exception\NotFoundResourceException;
 use App\Domain\Exception\Authentication\ValidPasswordException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use App\Http\Request\Authentication\Email\PostSignInRequest;
+use App\Aspect\Annotation\LoginCount;
 
 /**
  * Class PostSignIn
@@ -34,6 +35,10 @@ class PostSignIn extends Controller
     }
     
     /**
+     * @LoginCount(
+     *     key="email",
+     *     requestKey="email"
+     * )
      * @param PostSignInRequest       $request
      * @param UserRegistrationService $service
      * @return RedirectResponse

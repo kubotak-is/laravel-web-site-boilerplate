@@ -52,6 +52,7 @@ return [
             App\Aspect\Modules\TransactionalModule::class,
             // Add
             App\Aspect\Modules\UpdateLastLoginTimeModule::class,
+            App\Aspect\Modules\LoginCountModule::class,
         ],
     ],
 
