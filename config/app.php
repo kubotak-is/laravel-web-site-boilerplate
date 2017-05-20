@@ -12,7 +12,7 @@ return [
     | any other location as required by the application or its packages.
     */
 
-    'name' => 'WebSiteBoilerTemplate',
+    'name' => 'LaravelWebSiteBoilerplate',
 
     /*
     |--------------------------------------------------------------------------
@@ -182,6 +182,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\DevelopServiceProvider::class,
         App\Providers\CriteriaServiceProvider::class,
+        App\Providers\CacheServiceProvider::class,
     ],
 
     /*
