@@ -6,6 +6,7 @@ namespace App\Http\Action\Authentication\Email;
 use Illuminate\Auth\AuthManager;
 use Illuminate\Routing\Controller;
 use App\Services\UserRegistrationService;
+use App\Services\Notification\Mail\UserActivationSuccess;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
@@ -20,12 +21,19 @@ class GetActivate extends Controller
     private $auth;
     
     /**
-     * PostSignIn constructor.
-     * @param AuthManager $authManager
+     * @var UserActivationSuccess
      */
-    public function __construct(AuthManager $authManager)
+    private $mailer;
+    
+    /**
+     * GetActivate constructor.
+     * @param AuthManager           $authManager
+     * @param UserActivationSuccess $activationSuccess
+     */
+    public function __construct(AuthManager $authManager, UserActivationSuccess $activationSuccess)
     {
-        $this->auth = $authManager->guard('web');
+        $this->auth   = $authManager->guard('web');
+        $this->mailer = $activationSuccess;
     }
     
     /**
@@ -43,6 +51,8 @@ class GetActivate extends Controller
         if (!$this->auth->loginUsingId($entity->getUser()->getUserId())) {
             throw new \ErrorException("Failed Auth Email");
         }
+        
+        $this->mailer->run($name, $email);
     
         // auth success
         return redirect(route('index'));
