@@ -27,12 +27,12 @@ class TwitterAttributeTest extends TestCase
     {
         $this->attr  = new TwitterAttribute;
         $this->dummy = new \stdClass();
-        $this->dummy->token       = 'token';
-        $this->dummy->tokenSecret = 'token_secret';
-        $this->dummy->id          = 1234567890;
-        $this->dummy->name        = 'name';
-        $this->dummy->email       = 'test@test.com';
-        $this->dummy->avatar      = 'http://test.com';
+        $this->dummy->token           = 'token';
+        $this->dummy->tokenSecret     = 'token_secret';
+        $this->dummy->id              = 1234567890;
+        $this->dummy->name            = 'name';
+        $this->dummy->email           = 'test@test.com';
+        $this->dummy->avatar_original = 'http://test.com';
     }
     
     public function testInstance()
