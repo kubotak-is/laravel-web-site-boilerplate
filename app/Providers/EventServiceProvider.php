@@ -2,11 +2,17 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\Event;
-use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use Illuminate\Events\Dispatcher;
+use Illuminate\Foundation\Application;
+use Illuminate\Support\ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider
 {
+    /**
+     * @var Dispatcher
+     */
+    private $event;
+    
     /**
      * The event listener mappings for the application.
      *
@@ -17,16 +23,57 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\EventListener',
         ],
     ];
-
+    
     /**
-     * Register any events for your application.
+     * The subscriber classes to register.
+     *
+     * @var array
+     */
+    protected $subscribe = [];
+    
+    /**
+     * EventServiceProvider constructor.
+     * @param Application $app
+     */
+    public function __construct(Application $app)
+    {
+        $this->event = new Dispatcher($app);
+        parent::__construct($app);
+    }
+    
+    /**
+     * Register the application's event listeners.
      *
      * @return void
      */
     public function boot()
     {
-        parent::boot();
-
+        foreach ($this->listens() as $event => $listeners) {
+            foreach ($listeners as $listener) {
+                $this->event->listen($event, $listener);
+            }
+        }
+        
+        foreach ($this->subscribe as $subscriber) {
+            $this->event->subscribe($subscriber);
+        }
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function register()
+    {
         //
+    }
+    
+    /**
+     * Get the events and handlers.
+     *
+     * @return array
+     */
+    public function listens()
+    {
+        return $this->listen;
     }
 }

@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
+use \Illuminate\Support\Facades\Facade as Facade;
 
 /**
  * Class DevelopServiceProvider
@@ -29,6 +30,7 @@ class DevelopServiceProvider extends ServiceProvider
     public function register()
     {
         if (config('app.debug')) {
+            Facade::setFacadeApplication($this->app);
             $this->registerServiceProviders();
             $this->registerFacadeAliases();
         }
