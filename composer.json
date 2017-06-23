@@ -54,7 +54,8 @@
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
             "php artisan optimize"
         ],
-        "test": "./vendor/bin/phpunit"
+        "test": "./vendor/bin/phpunit",
+        "test-coverage": "phpunit --coverage-html ./tests/logs/coverage"
     },
     "config": {
         "preferred-install": "dist",

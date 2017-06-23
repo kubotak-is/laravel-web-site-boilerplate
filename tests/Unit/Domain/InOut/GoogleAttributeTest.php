@@ -27,11 +27,11 @@ class GoogleAttributeTest extends TestCase
     {
         $this->attr  = new GoogleAttribute;
         $this->dummy = new \stdClass();
-        $this->dummy->token    = 'token';
-        $this->dummy->id       = 1234567890;
-        $this->dummy->nickname = 'name';
-        $this->dummy->email    = 'test@test.com';
-        $this->dummy->avatar   = 'http://test.com';
+        $this->dummy->token           = 'token';
+        $this->dummy->id              = 1234567890;
+        $this->dummy->nickname        = 'name';
+        $this->dummy->email           = 'test@test.com';
+        $this->dummy->avatar_original = 'http://test.com';
     }
     
     public function testInstance()
