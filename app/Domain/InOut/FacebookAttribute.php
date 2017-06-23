@@ -45,7 +45,7 @@ class FacebookAttribute implements InOutInterface
         $this->id     = (string) $input->id;
         $this->name   = (string) $input->name;
         $this->email  = (string) $input->email;
-        $this->avatar = (string) $input->avatar;
+        $this->avatar = (string) $input->avatar_original;
     }
     
     /**

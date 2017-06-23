@@ -13,6 +13,10 @@ use App\Domain\InOut\{
 use App\Domain\UseCase\Authentication\{
     FindUserEmail, FindUserGithub, RegistrationToUser, RegistrationToUserGithub, UpdateUserGithub
 };
+use App\Domain\UseCase\Image\{
+    CreateUserImage, SaveImage
+};
+use App\Foundation\ImageManager;
 use App\Domain\ValueObject\GithubId;
 use App\Domain\ValueObject\UserId;
 use ValueObjects\Web\EmailAddress;
@@ -41,6 +45,15 @@ class UserGithubRegistrationService implements ServiceInterface
     /** @var UpdateUserGithub */
     private $updateUserGithub;
     
+    /** @var ImageManager */
+    private $image;
+    
+    /** @var SaveImage */
+    private $saveImage;
+    
+    /** @var CreateUserImage */
+    private $createUserImage;
+    
     /**
      * UserGithubRegistrationService constructor.
      * @param FindUserEmail            $findUserEmail
@@ -48,13 +61,19 @@ class UserGithubRegistrationService implements ServiceInterface
      * @param FindUserGithub           $findUserGithub
      * @param RegistrationToUserGithub $registrationToUserGithub
      * @param UpdateUserGithub         $updateUserGithub
+     * @param ImageManager             $imageManager
+     * @param SaveImage                $saveImage
+     * @param CreateUserImage          $createUserImage
      */
     public function __construct(
         FindUserEmail            $findUserEmail,
         RegistrationToUser       $registrationToUser,
         FindUserGithub           $findUserGithub,
         RegistrationToUserGithub $registrationToUserGithub,
-        UpdateUserGithub         $updateUserGithub
+        UpdateUserGithub         $updateUserGithub,
+        ImageManager             $imageManager,
+        SaveImage                $saveImage,
+        CreateUserImage          $createUserImage
     )
     {
         $this->findUserEmail      = $findUserEmail;
@@ -62,6 +81,9 @@ class UserGithubRegistrationService implements ServiceInterface
         $this->findUserGithub     = $findUserGithub;
         $this->githubRegistration = $registrationToUserGithub;
         $this->updateUserGithub   = $updateUserGithub;
+        $this->image              = $imageManager;
+        $this->saveImage          = $saveImage;
+        $this->createUserImage    = $createUserImage;
     }
     
     /**
@@ -93,6 +115,13 @@ class UserGithubRegistrationService implements ServiceInterface
         $newGithub = new UserGithub($newUser, new GithubId($attribute->id));
         $newGithub->setToken($attribute->token);
         $newGithub->setNickname($attribute->nickname);
+    
+        // save image
+        $this->image->setSavePath($newUser->getUserId());
+        $imageEntity = $this->image->create($attribute->avatar);
+        $imageEntity = $this->saveImage->run($imageEntity);
+        $this->createUserImage->run($newUser, $imageEntity);
+        
         return $this->createUser($newGithub);
     }
     

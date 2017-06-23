@@ -11,6 +11,10 @@ use App\Domain\InOut\{FacebookAttribute};
 use App\Domain\UseCase\Authentication\{
     FindUserEmail, FindUserFacebook, RegistrationToUser, RegistrationToUserFacebook, UpdateUserFacebook
 };
+use App\Domain\UseCase\Image\{
+    CreateUserImage, SaveImage
+};
+use App\Foundation\ImageManager;
 use App\Domain\ValueObject\FacebookId;
 use App\Domain\ValueObject\UserId;
 use ValueObjects\Web\EmailAddress;
@@ -39,6 +43,15 @@ class UserFacebookRegistrationService implements ServiceInterface
     /** @var UpdateUserFacebook */
     private $updateUserFacebook;
     
+    /** @var ImageManager */
+    private $image;
+    
+    /** @var SaveImage */
+    private $saveImage;
+    
+    /** @var CreateUserImage */
+    private $createUserImage;
+    
     /**
      * UserFacebookRegistrationService constructor.
      * @param FindUserEmail              $findUserEmail
@@ -46,13 +59,19 @@ class UserFacebookRegistrationService implements ServiceInterface
      * @param FindUserFacebook           $findUserFacebook
      * @param RegistrationToUserFacebook $registrationToUserFacebook
      * @param UpdateUserFacebook         $updateUserFacebook
+     * @param ImageManager               $imageManager
+     * @param SaveImage                  $saveImage
+     * @param CreateUserImage            $createUserImage
      */
     public function __construct(
         FindUserEmail              $findUserEmail,
         RegistrationToUser         $registrationToUser,
         FindUserFacebook           $findUserFacebook,
         RegistrationToUserFacebook $registrationToUserFacebook,
-        UpdateUserFacebook         $updateUserFacebook
+        UpdateUserFacebook         $updateUserFacebook,
+        ImageManager               $imageManager,
+        SaveImage                  $saveImage,
+        CreateUserImage            $createUserImage
     )
     {
         $this->findUserEmail        = $findUserEmail;
@@ -60,6 +79,9 @@ class UserFacebookRegistrationService implements ServiceInterface
         $this->findUserFacebook     = $findUserFacebook;
         $this->facebookRegistration = $registrationToUserFacebook;
         $this->updateUserFacebook   = $updateUserFacebook;
+        $this->image                = $imageManager;
+        $this->saveImage            = $saveImage;
+        $this->createUserImage      = $createUserImage;
     }
     
     /**
@@ -90,6 +112,13 @@ class UserFacebookRegistrationService implements ServiceInterface
         };
         $newFacebook = new UserFacebook($newUser, new FacebookId($attribute->id));
         $newFacebook->setToken($attribute->token);
+        
+        // save image
+        $this->image->setSavePath($newUser->getUserId());
+        $imageEntity = $this->image->create($attribute->avatar);
+        $imageEntity = $this->saveImage->run($imageEntity);
+        $this->createUserImage->run($newUser, $imageEntity);
+        
         return $this->createUser($newFacebook);
     }
     

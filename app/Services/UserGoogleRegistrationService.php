@@ -11,6 +11,10 @@ use App\Domain\InOut\{GoogleAttribute};
 use App\Domain\UseCase\Authentication\{
     FindUserEmail, FindUserGoogle, RegistrationToUser, RegistrationToUserGoogle, UpdateUserGoogle
 };
+use App\Domain\UseCase\Image\{
+    CreateUserImage, SaveImage
+};
+use App\Foundation\ImageManager;
 use App\Domain\ValueObject\GoogleId;
 use App\Domain\ValueObject\UserId;
 use ValueObjects\Web\EmailAddress;
@@ -39,6 +43,15 @@ class UserGoogleRegistrationService implements ServiceInterface
     /** @var UpdateUserGoogle */
     private $updateUserGoogle;
     
+    /** @var ImageManager */
+    private $image;
+    
+    /** @var SaveImage */
+    private $saveImage;
+    
+    /** @var CreateUserImage */
+    private $createUserImage;
+    
     /**
      * UserGoogleRegistrationService constructor.
      * @param FindUserEmail            $findUserEmail
@@ -46,13 +59,19 @@ class UserGoogleRegistrationService implements ServiceInterface
      * @param FindUserGoogle           $findUserGoogle
      * @param RegistrationToUserGoogle $registrationToUserGoogle
      * @param UpdateUserGoogle         $updateUserGoogle
+     * @param ImageManager             $imageManager
+     * @param SaveImage                $saveImage
+     * @param CreateUserImage          $createUserImage
      */
     public function __construct(
         FindUserEmail            $findUserEmail,
         RegistrationToUser       $registrationToUser,
         FindUserGoogle           $findUserGoogle,
         RegistrationToUserGoogle $registrationToUserGoogle,
-        UpdateUserGoogle         $updateUserGoogle
+        UpdateUserGoogle         $updateUserGoogle,
+        ImageManager             $imageManager,
+        SaveImage                $saveImage,
+        CreateUserImage          $createUserImage
     )
     {
         $this->findUserEmail      = $findUserEmail;
@@ -60,6 +79,9 @@ class UserGoogleRegistrationService implements ServiceInterface
         $this->findUserGoogle     = $findUserGoogle;
         $this->googleRegistration = $registrationToUserGoogle;
         $this->updateUserGoogle   = $updateUserGoogle;
+        $this->image              = $imageManager;
+        $this->saveImage          = $saveImage;
+        $this->createUserImage    = $createUserImage;
     }
     
     /**
@@ -90,6 +112,13 @@ class UserGoogleRegistrationService implements ServiceInterface
         };
         $newGoogle = new UserGoogle($newUser, new GoogleId($attribute->id));
         $newGoogle->setToken($attribute->token);
+    
+        // save image
+        $this->image->setSavePath($newUser->getUserId());
+        $imageEntity = $this->image->create($attribute->avatar);
+        $imageEntity = $this->saveImage->run($imageEntity);
+        $this->createUserImage->run($newUser, $imageEntity);
+        
         return $this->createUser($newGoogle);
     }
     
