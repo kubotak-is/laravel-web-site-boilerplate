@@ -166,6 +166,7 @@ return [
         /*
          * Package Service Providers...
          */
+        Intervention\Image\ImageServiceProvider::class,
 
         // added AspectServiceProvider
         Ytake\LaravelAspect\AspectServiceProvider::class,
@@ -176,8 +177,8 @@ return [
          * Application Service Providers...
          */
         App\Providers\AppServiceProvider::class,
-        App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
+//        App\Providers\AuthServiceProvider::class,
+//        App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\DevelopServiceProvider::class,
