@@ -10,6 +10,10 @@ use App\Domain\InOut\{TwitterAttribute};
 use App\Domain\UseCase\Authentication\{
     FindUserTwitter, RegistrationToUser, RegistrationToUserTwitter, UpdateUserTwitter
 };
+use App\Domain\UseCase\Image\{
+    CreateUserImage, DeleteUserImage, SaveImage
+};
+use App\Foundation\ImageManager;
 use App\Domain\ValueObject\TwitterId;
 use App\Domain\ValueObject\UserId;
 use PHPMentors\DomainKata\Service\ServiceInterface;
@@ -34,24 +38,42 @@ class UserTwitterRegistrationService implements ServiceInterface
     /** @var UpdateUserTwitter */
     private $updateUserTwitter;
     
+    /** @var ImageManager */
+    private $image;
+    
+    /** @var SaveImage */
+    private $saveImage;
+    
+    /** @var CreateUserImage */
+    private $createUserImage;
+    
     /**
      * UserTwitterRegistrationService constructor.
      * @param RegistrationToUser        $registrationToUser
      * @param FindUserTwitter           $findUserTwitter
      * @param RegistrationToUserTwitter $registrationToUserTwitter
      * @param UpdateUserTwitter         $updateUserTwitter
+     * @param ImageManager              $imageManager
+     * @param SaveImage                 $saveImage
+     * @param CreateUserImage           $createUserImage
      */
     public function __construct(
         RegistrationToUser        $registrationToUser,
         FindUserTwitter           $findUserTwitter,
         RegistrationToUserTwitter $registrationToUserTwitter,
-        UpdateUserTwitter         $updateUserTwitter
+        UpdateUserTwitter         $updateUserTwitter,
+        ImageManager              $imageManager,
+        SaveImage                 $saveImage,
+        CreateUserImage           $createUserImage
     )
     {
         $this->userRegistration    = $registrationToUser;
         $this->findUserTwitter     = $findUserTwitter;
         $this->twitterRegistration = $registrationToUserTwitter;
         $this->updateUserTwitter   = $updateUserTwitter;
+        $this->image               = $imageManager;
+        $this->saveImage           = $saveImage;
+        $this->createUserImage     = $createUserImage;
     }
     
     /**
@@ -84,6 +106,13 @@ class UserTwitterRegistrationService implements ServiceInterface
         $newTwitter->setNickname($attribute->name);
         $newTwitter->setToken($attribute->token);
         $newTwitter->setTokenSecret($attribute->tokenSecret);
+    
+        // save image
+        $this->image->setSavePath($newUser->getUserId());
+        $imageEntity = $this->image->create($attribute->avatar);
+        $imageEntity = $this->saveImage->run($imageEntity);
+        $this->createUserImage->run($newUser, $imageEntity);
+        
         return $this->createUser($newTwitter);
     }
     
