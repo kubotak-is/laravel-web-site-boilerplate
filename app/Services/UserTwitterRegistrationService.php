@@ -11,7 +11,7 @@ use App\Domain\UseCase\Authentication\{
     FindUserTwitter, RegistrationToUser, RegistrationToUserTwitter, UpdateUserTwitter
 };
 use App\Domain\UseCase\Image\{
-    CreateUserImage, DeleteUserImage, SaveImage
+    CreateUserImage, SaveImage
 };
 use App\Foundation\ImageManager;
 use App\Domain\ValueObject\TwitterId;
