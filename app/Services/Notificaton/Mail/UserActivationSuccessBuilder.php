@@ -33,17 +33,17 @@ class UserActivationSuccessBuilder extends Mailable
      */
     public function __construct(string $name, string $email)
     {
-        $this->name          = $name;
-        $this->email         = $email;
+        $this->name  = $name;
+        $this->email = $email;
     }
     
     /**
      * @return $this
      */
-    public function build(): UserActivationBuilder
+    public function build(): UserActivationSuccessBuilder
     {
-        $name          = $this->name;
-        $subject       = "[" . config('app.name') . "] Activation Success";
+        $name    = $this->name;
+        $subject = "[" . config('app.name') . "] Activation Success";
         
         return $this->to($this->email)
             ->subject($subject)

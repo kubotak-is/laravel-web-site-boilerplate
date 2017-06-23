@@ -5,7 +5,6 @@ namespace App\Http\Action\Authentication\Twitter;
 
 use App\Domain\Exception\NotFoundResourceException;
 use Illuminate\Auth\AuthManager;
-use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Application;
 use App\Domain\InOut\TwitterAttribute;
