@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\DataAccess\Cache\Cache;
-use App\DataAccess\Cache\CacheInterface;
+use Psr\SimpleCache\CacheInterface;
 use Illuminate\Cache\CacheManager;
 use Illuminate\Cache\MemcachedConnector;
 
@@ -43,7 +43,7 @@ class CacheServiceProvider extends \Illuminate\Cache\CacheServiceProvider
         });
         
         $this->app->singleton(CacheInterface::class , function($app) {
-            return new Cache($app->make('cache'), 'cache', 60);
+            return new Cache($app->make('cache'), 'cache');
         });
     }
 }

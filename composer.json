@@ -12,6 +12,7 @@
         "laravel/socialite": "^3.0",
         "laravel/tinker": "~1.0",
         "phpmentors/domain-kata": "^1.4",
+        "psr/simple-cache": "^1.0",
         "ytake/laravel-aspect": "^1.5",
         "ytake/valueobjects": "^1.0"
     },

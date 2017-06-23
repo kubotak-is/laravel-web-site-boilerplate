@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\DataAccess\Cache;
 
 use Illuminate\Cache\CacheManager;
+use Psr\SimpleCache\CacheInterface;
 
 /**
  * Class Cache
@@ -22,61 +23,93 @@ class Cache implements CacheInterface
     protected $cacheKey;
     
     /**
-     * @var null|int
-     */
-    protected $minutes;
-    
-    /**
+     * Cache constructor.
      * @param CacheManager $cache
      * @param string       $cacheKey
-     * @param null|int     $minutes
      */
-    public function __construct(CacheManager $cache, string $cacheKey, int $minutes = null)
+    public function __construct(CacheManager $cache, string $cacheKey)
     {
         $this->cache    = $cache;
         $this->cacheKey = $cacheKey;
-        $this->minutes  = $minutes;
     }
     /**
      * {@inheritdoc}
      */
-    public function get(string $key)
+    public function get($key, $default = null)
     {
+        if (!$this->has($key)) {
+            return $default;
+        }
         return $this->cache->get($key);
     }
     
     /**
      * {@inheritdoc}
      */
-    public function put(string $key, $value, int $minutes = null)
+    public function set($key, $value, $minutes = null): bool
     {
-        if (is_null($minutes)) {
-            $minutes = $this->minutes;
+        return (bool) $this->cache->put($key, $value, $minutes);
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function has($key): bool
+    {
+        return (bool) $this->cache->has($key);
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function delete($key): bool
+    {
+        return (bool) $this->cache->forget($key);
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function clear(): bool
+    {
+        return (bool) $this->cache->flush();
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function getMultiple($keys, $default = null): array
+    {
+        $values = [];
+        foreach ($keys as $key) {
+            $values[] = $this->get($key, $default);
         }
-        return $this->cache->put($key, $value, $minutes);
+        return $values;
     }
     
     /**
      * {@inheritdoc}
      */
-    public function has(string $key)
+    public function setMultiple($values, $ttl = null): bool
     {
-        return $this->cache->has($key);
+        foreach ($values as $key => $val) {
+            if (!$this->set($key, $val)) {
+                return false;
+            }
+        }
+        return true;
     }
     
     /**
      * {@inheritdoc}
      */
-    public function forget(string $key)
+    public function deleteMultiple($keys): bool
     {
-        return $this->cache->forget($key);
-    }
-    
-    /**
-     * {@inheritdoc}
-     */
-    public function flush()
-    {
-        $this->cache->flush();
+        foreach ($keys as $key) {
+            if (!$this->delete($key)) {
+                return false;
+            }
+        }
+        return true;
     }
 }
