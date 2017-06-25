@@ -13,10 +13,10 @@ use App\Domain\UseCase\Authentication\FindUserTwitter;
 use App\Domain\Specification\Authentication\FindUserTwitterSpecification;
 
 /**
- * Class FindUserGoogleTest
+ * Class FindUserTwitterTest
  * @package Test\Unit\Domain\UseCase\Authentication
  */
-class FindUserGoogleTest extends TestCase
+class FindUserTwitterTest extends TestCase
 {
     /**
      * @var
