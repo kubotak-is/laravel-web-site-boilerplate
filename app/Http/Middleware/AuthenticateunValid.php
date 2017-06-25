@@ -18,7 +18,7 @@ class AuthenticateUnValid
     private $auth;
     
     /**
-     * Authenticate constructor.
+     * Authentication constructor.
      * @param AuthManager $authManager
      */
     public function __construct(AuthManager $authManager)
