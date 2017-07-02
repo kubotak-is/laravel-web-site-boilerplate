@@ -7,10 +7,10 @@ use Illuminate\Http\Request;
 use Illuminate\Auth\AuthManager;
 
 /**
- * Class AuthenticateUnValid
- * @package App\Http\MiddlewareS
+ * Class AuthenticateInValid
+ * @package App\Http\Middleware
  */
-class AuthenticateUnValid
+class AuthenticateInValid
 {
     /**
      * @var \Illuminate\Contracts\Auth\Guard|\Illuminate\Contracts\Auth\StatefulGuard
@@ -18,7 +18,7 @@ class AuthenticateUnValid
     private $auth;
     
     /**
-     * Authentication constructor.
+     * AuthenticateInValid constructor.
      * @param AuthManager $authManager
      */
     public function __construct(AuthManager $authManager)

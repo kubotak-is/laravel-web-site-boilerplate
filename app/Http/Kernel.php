@@ -2,9 +2,7 @@
 
 namespace App\Http;
 
-use App\Http\Middleware\Authenticate;
-use App\Http\Middleware\AuthenticateUnValid;
-use App\Http\Middleware\AuthenticateValid;
+use App\Http\Middleware\{AuthenticateInValid, AuthenticateValid};
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -66,7 +64,7 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
-        'auth.valid'   => AuthenticateValid::class,
-        'auth.unValid' => AuthenticateUnValid::class,
+        'auth.valid'   => AuthenticateValid::class,   // 有効
+        'auth.inValid' => AuthenticateInValid::class, // 無効
     ];
 }
