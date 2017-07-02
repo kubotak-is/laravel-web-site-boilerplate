@@ -172,6 +172,9 @@ return [
         Ytake\LaravelAspect\AspectServiceProvider::class,
         // added Artisan Command
         Ytake\LaravelAspect\ConsoleServiceProvider::class,
+        
+        // blade expansion
+        Kubotak\Blade\BladeExpansionServiceProvider::class,
 
         /*
          * Application Service Providers...
