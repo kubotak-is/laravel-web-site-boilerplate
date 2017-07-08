@@ -5,7 +5,7 @@ namespace App\Http\Action\Authentication\Email;
 
 use Illuminate\Auth\AuthManager;
 use Illuminate\Routing\Controller;
-use App\Services\UserRegistrationService;
+use App\Services\User\UserRegistrationService;
 use App\Services\Notification\Mail\UserActivationSuccess;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 

@@ -5,7 +5,7 @@ namespace App\Http\Action\Authentication\Facebook;
 
 use App\Domain\Exception\NotFoundResourceException;
 use App\Domain\InOut\FacebookAttribute;
-use App\Services\UserFacebookRegistrationService;
+use App\Services\User\UserFacebookRegistrationService;
 use Illuminate\Auth\AuthManager;
 use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Application;

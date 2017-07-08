@@ -5,7 +5,7 @@ namespace App\Http\Action\Authentication\Google;
 
 use App\Domain\Exception\NotFoundResourceException;
 use App\Domain\InOut\GoogleAttribute;
-use App\Services\UserGoogleRegistrationService;
+use App\Services\User\UserGoogleRegistrationService;
 use Illuminate\Auth\AuthManager;
 use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Application;

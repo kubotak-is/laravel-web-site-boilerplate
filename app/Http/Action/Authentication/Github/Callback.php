@@ -5,7 +5,7 @@ namespace App\Http\Action\Authentication\Github;
 
 use App\Domain\Exception\NotFoundResourceException;
 use App\Domain\InOut\GithubAttribute;
-use App\Services\UserGithubRegistrationService;
+use App\Services\User\UserGithubRegistrationService;
 use Illuminate\Auth\AuthManager;
 use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Application;

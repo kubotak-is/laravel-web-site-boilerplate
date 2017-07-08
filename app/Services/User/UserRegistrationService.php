@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Services;
+namespace App\Services\User;
 
-use App\DataAccess\Cache\CacheInterface;
+use Psr\SimpleCache\CacheInterface;
 use App\Domain\Entity\{
     User, UserEmail
 };

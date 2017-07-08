@@ -9,7 +9,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Application;
 use App\Domain\InOut\TwitterAttribute;
 use Laravel\Socialite\SocialiteManager;
-use App\Services\UserTwitterRegistrationService;
+use App\Services\User\UserTwitterRegistrationService;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**

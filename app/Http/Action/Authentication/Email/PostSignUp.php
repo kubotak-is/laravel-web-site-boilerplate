@@ -5,7 +5,7 @@ namespace App\Http\Action\Authentication\Email;
 
 use Illuminate\View\View;
 use Illuminate\Routing\Controller;
-use App\Services\UserRegistrationService;
+use App\Services\User\UserRegistrationService;
 use App\Services\Notification\Mail\UserActivation;
 use App\Http\Request\Authentication\Email\PostSignUpRequest;
 

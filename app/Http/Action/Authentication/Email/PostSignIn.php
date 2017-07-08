@@ -5,7 +5,7 @@ namespace App\Http\Action\Authentication\Email;
 
 use Illuminate\Auth\AuthManager;
 use Illuminate\Routing\Controller;
-use App\Services\UserRegistrationService;
+use App\Services\User\UserRegistrationService;
 use App\Domain\Exception\NotFoundResourceException;
 use App\Domain\Exception\Authentication\ValidPasswordException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
