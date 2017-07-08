@@ -19,7 +19,7 @@ use App\Aspect\Annotation\UpdateLastLoginTime;
 
 /**
  * Class UserRegistrationService
- * @package App\Services
+ * @package App\Services\User
  */
 class UserRegistrationService implements ServiceInterface
 {

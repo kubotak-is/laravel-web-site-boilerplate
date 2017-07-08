@@ -24,7 +24,7 @@ use App\Aspect\Annotation\UpdateLastLoginTime;
 
 /**
  * Class UserFacebookRegistrationService
- * @package App\Services
+ * @package App\Services\User
  */
 class UserFacebookRegistrationService implements ServiceInterface
 {

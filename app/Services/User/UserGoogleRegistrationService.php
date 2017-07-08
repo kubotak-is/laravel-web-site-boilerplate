@@ -24,7 +24,7 @@ use App\Aspect\Annotation\UpdateLastLoginTime;
 
 /**
  * Class UserGoogleRegistrationService
- * @package App\Services
+ * @package App\Services\User
  */
 class UserGoogleRegistrationService implements ServiceInterface
 {

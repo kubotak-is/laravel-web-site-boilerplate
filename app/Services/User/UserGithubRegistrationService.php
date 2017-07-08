@@ -26,7 +26,7 @@ use App\Aspect\Annotation\UpdateLastLoginTime;
 
 /**
  * Class UserGithubRegistrationService
- * @package App\Services
+ * @package App\Services\User
  */
 class UserGithubRegistrationService implements ServiceInterface
 {

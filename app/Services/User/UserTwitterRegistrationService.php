@@ -22,7 +22,7 @@ use App\Aspect\Annotation\UpdateLastLoginTime;
 
 /**
  * Class UserTwitterRegistrationService
- * @package App\Services
+ * @package App\Services\User
  */
 class UserTwitterRegistrationService implements ServiceInterface
 {

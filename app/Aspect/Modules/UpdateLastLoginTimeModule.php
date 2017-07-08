@@ -13,11 +13,11 @@ class UpdateLastLoginTimeModule extends AspectModule
 {
     /** @var array */
     protected $classes = [
-        \App\Services\UserRegistrationService::class,
-        \App\Services\UserFacebookRegistrationService::class,
-        \App\Services\UserTwitterRegistrationService::class,
-        \App\Services\UserGoogleRegistrationService::class,
-        \App\Services\UserGithubRegistrationService::class,
+        \App\Services\User\UserRegistrationService::class,
+        \App\Services\User\UserFacebookRegistrationService::class,
+        \App\Services\User\UserTwitterRegistrationService::class,
+        \App\Services\User\UserGoogleRegistrationService::class,
+        \App\Services\User\UserGithubRegistrationService::class,
     ];
     
     /**
