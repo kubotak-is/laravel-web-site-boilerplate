@@ -22,7 +22,13 @@ interface UsersImageCriteriaInterface extends CriteriaInterface
      * @param string $userId
      * @return bool
      */
-    public function findByUserId(string $userId): bool;
+    public function findByUserId(string $userId): array;
+    
+    /**
+     * @param string $userId
+     * @return bool
+     */
+    public function hasUserId(string $userId): bool;
     
     /**
      * @param int $imageId

@@ -3,8 +3,9 @@ declare(strict_types=1);
 
 namespace App\Domain\Repository;
 
-use App\Domain\Entity\Image;
 use App\Domain\Entity\User;
+use App\Domain\Entity\Image;
+use App\Domain\Entity\UserImage;
 use PHPMentors\DomainKata\Specification\SpecificationInterface;
 
 /**
@@ -44,5 +45,14 @@ class UsersImageRepository
     public function delete(User $entity): bool
     {
         return $this->specification->delete($entity);
+    }
+    
+    /**
+     * @param User $user
+     * @return UserImage
+     */
+    public function get(User $user): UserImage
+    {
+        return $this->specification->get($user);
     }
 }

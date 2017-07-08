@@ -30,7 +30,27 @@ class UsersImageStorage extends MySQLConnection implements UsersImageCriteriaInt
     /**
      * {@inheritdoc}
      */
-    public function findByUserId(string $userId): bool
+    public function findByUserId(string $userId): array
+    {
+        $selfTable = self::TABLE;
+        $imageStorageTable = ImagesStorage::TABLE;
+        $collection = $this->db->table(self::TABLE)
+            ->leftJoin($imageStorageTable, "{$imageStorageTable}.image_id", '=', "{$selfTable}.image_id")
+            ->where("{$selfTable}.user_id", $userId)
+            ->first([
+                'user_id',
+                "{$imageStorageTable}.image_id",
+                'path',
+                'filename',
+                'ext',
+            ]);
+        return (array) $collection;
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function hasUserId(string $userId): bool
     {
         $collection = $this->db->table(self::TABLE)
             ->where([

@@ -43,4 +43,13 @@ class UsersRepository
     {
         return $this->specification->update($entity);
     }
+    
+    /**
+     * @param User $entity
+     * @return User
+     */
+    public function get(User $entity): User
+    {
+        return $this->specification->get($entity);
+    }
 }
