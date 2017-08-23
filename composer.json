@@ -8,7 +8,6 @@
         "php": ">=7.0.0",
         "guzzlehttp/guzzle": "^6.2",
         "intervention/image": "^2.3",
-        "kubotak-is/laravel-blade-expansion": "^1.0",
         "laravel/framework": "5.4.*",
         "laravel/socialite": "^3.0",
         "laravel/tinker": "~1.0",

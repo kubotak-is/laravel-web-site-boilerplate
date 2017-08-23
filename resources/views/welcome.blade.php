@@ -71,7 +71,7 @@
                 </div>
 
                 <div class="links">
-                    @isAuth()
+                    @if(auth()->check())
                         <a href="{{ route('auth.sign_out') }}">SignOut</a>
                     @else
                         <a href="{{ route('auth.get.sign_in') }}">SignIn</a>
